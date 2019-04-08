@@ -1,4 +1,5 @@
-﻿using Entities.GameField;
+﻿using System;
+using Entities.GameField;
 
 namespace Entities.Animals.Implementation
 {
@@ -13,11 +14,32 @@ namespace Entities.Animals.Implementation
         public Antelope()
         {
             this.Name = "A";
+            this.VisionRange = 5;
+            this.PositionOnField = new PositionOnField();
         }
 
-        public void Move()
+
+
+        public void Move(SavannahGameField gameField)
         {
+            for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
+            {
+                for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
+                {
+                    if (gameField.SavannahField[x, y].Name == "L")
+                    {
+                        this.RunAwayFromLion();
+                    }
+                }
+            }
             //TO DO: Antilope tries to avoid Lion
+        }
+
+        private void RunAwayFromLion()
+        {
+            var random = new Random();
+            var movesToMake = random.Next(1, 4);
+
         }
 
         public void SpecialAction()

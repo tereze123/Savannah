@@ -13,6 +13,7 @@ namespace Entities.Animals.Implementation
         public Lion()
         {
             this.Name = "L";
+            this.VisionRange = 7;
         }
 
         public void Move()
