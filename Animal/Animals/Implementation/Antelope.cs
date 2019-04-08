@@ -8,6 +8,13 @@ namespace Entities.Animals.Implementation
 
         public PositionOnField PositionOnField { get; set; }
 
+        public string Name { get; set; }
+
+        public Antelope()
+        {
+            this.Name = "A";
+        }
+
         public void Move()
         {
             //TO DO: Antilope tries to avoid Lion

@@ -6,6 +6,8 @@ namespace Entities.Animals
     {
         PositionOnField PositionOnField { get; set; }
 
+        string Name { get; set; }
+
         int VisionRange { get; set; }
 
         void Move();

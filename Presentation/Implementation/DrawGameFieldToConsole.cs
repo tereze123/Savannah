@@ -7,16 +7,29 @@ namespace Presentation.Implementation
     {
         public void DrawGameField(SavannahGameField gameField)
         {
-            for (int i = 0; i < gameField.SavannahField.GetLength(0); i++)
+            for (int x = 0; x < gameField.SavannahField.GetLength(0); x++)
             {
-                for (int j = 0; j < gameField.SavannahField.GetLength(0); j++)
+                for (int y = 0; y < gameField.SavannahField.GetLength(0); y++)
                 {
-                    Console.SetCursorPosition(10 + (j * 3), 5 + i);
-                    Console.Write("|__");
+                    Console.SetCursorPosition(10 + (y * 3), 5 + x);
+                    OutputAnimalNameOrBlank(gameField, x, y);
                 }
                 Console.WriteLine();
             }
             Console.ReadLine();
         }
+
+        private void OutputAnimalNameOrBlank(SavannahGameField gameField,int x, int y)
+        {
+            if (gameField.SavannahField[x, y] == null)
+            {
+                Console.Write("|__");
+            }
+            else
+            {
+                Console.Write($"|" + gameField.SavannahField[x, y].Name + "_");
+            }
+        }
+
     }
 }

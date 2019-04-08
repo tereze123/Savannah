@@ -4,10 +4,16 @@ namespace Entities.Animals.Implementation
 {
     public class Lion : IAnimal
     {
+        public string Name { get; set; }
 
         public int VisionRange { get; set; }
 
         public PositionOnField PositionOnField { get; set; }
+
+        public Lion()
+        {
+            this.Name = "L";
+        }
 
         public void Move()
         {

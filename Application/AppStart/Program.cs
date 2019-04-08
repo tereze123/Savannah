@@ -1,4 +1,6 @@
-﻿using Entities.GameField;
+﻿using Application.GameEngine;
+using Entities.Animals.Implementation;
+using Entities.GameField;
 using Presentation.Implementation;
 
 namespace Application
@@ -7,9 +9,8 @@ namespace Application
     {
         static void Main(string[] args)
         {
-
-            DrawGameFieldToConsole drawGameField = new DrawGameFieldToConsole();
-            drawGameField.DrawGameField(new SavannahGameField());
+            SavannahEngine savannahEngine = new SavannahEngine();
+            savannahEngine.Start();
         }
     }
 }
