@@ -22,7 +22,7 @@ namespace Entities.Animals.Implementation
 
         public void SpecialAction()
         {
-            //TO DO: Antilopes Special Action is to run 2 blocks at a time at a  one out of 5 possibility
+            //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
         }
     }
 }

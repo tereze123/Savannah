@@ -1,7 +1,5 @@
 ﻿using Application.GameEngine;
-using Entities.Animals.Implementation;
-using Entities.GameField;
-using Presentation.Implementation;
+using System;
 
 namespace Application
 {
@@ -11,6 +9,7 @@ namespace Application
         {
             SavannahEngine savannahEngine = new SavannahEngine();
             savannahEngine.Start();
+            Console.ReadLine();
         }
     }
 }

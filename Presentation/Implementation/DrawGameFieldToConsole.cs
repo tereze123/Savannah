@@ -16,7 +16,6 @@ namespace Presentation.Implementation
                 }
                 Console.WriteLine();
             }
-            Console.ReadLine();
         }
 
         private void OutputAnimalNameOrBlank(SavannahGameField gameField,int x, int y)
