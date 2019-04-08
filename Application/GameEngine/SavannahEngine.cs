@@ -1,8 +1,8 @@
-﻿using Entities.Animals.Implementation;
+﻿using Entities.Animals;
+using Entities.Animals.Implementation;
 using Entities.GameField;
 using Presentation.Implementation;
 using System;
-using System.Threading;
 
 namespace Application.GameEngine
 {
@@ -16,8 +16,8 @@ namespace Application.GameEngine
             do
             {
                 cki = Console.ReadKey(true);
-                if (cki.Key == ConsoleKey.A) { this.PlaceNewAntelopeAtRandomFreeSpaceWhenKeyPressed(gameField); }
-                else if(cki.Key == ConsoleKey.L) { this.PlaceNewLionAtRandomFreeSpaceWhenKeyPressed(gameField); }
+                if (cki.Key == ConsoleKey.A) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
+                else if(cki.Key == ConsoleKey.L) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
             } while (cki.Key != ConsoleKey.Escape);            
         }
 
@@ -36,7 +36,7 @@ namespace Application.GameEngine
             return positionOnField;
         }
 
-        private void PlaceNewLionAtRandomFreeSpaceWhenKeyPressed(SavannahGameField gameField)
+        private void PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(SavannahGameField gameField, IAnimal animal)
         {
             PositionOnField randomPosition = new PositionOnField();
             do
@@ -44,21 +44,8 @@ namespace Application.GameEngine
                 randomPosition = GetRandomPositionOnField();
             } while (gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] != null);
 
-            gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] = new Lion();
+            gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] = animal;
             this.DrawGameScreen(gameField);
         }
-
-        private void PlaceNewAntelopeAtRandomFreeSpaceWhenKeyPressed(SavannahGameField gameField)
-        {
-            PositionOnField randomPosition = new PositionOnField();
-            do
-            {
-                randomPosition = GetRandomPositionOnField();
-            } while (gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] != null);
-            gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] = new Antelope();
-            this.DrawGameScreen(gameField);
-        }
-
-
     }
 }

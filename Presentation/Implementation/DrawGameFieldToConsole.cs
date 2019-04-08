@@ -29,6 +29,5 @@ namespace Presentation.Implementation
                 Console.Write($"|" + gameField.SavannahField[x, y].Name + "_");
             }
         }
-
     }
 }

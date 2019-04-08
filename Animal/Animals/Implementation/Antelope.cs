@@ -18,33 +18,76 @@ namespace Entities.Animals.Implementation
             this.PositionOnField = new PositionOnField();
         }
 
-
-
         public void Move(SavannahGameField gameField)
         {
-            for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
+            PositionOnField lionsPositionOnField = new PositionOnField();
+            lionsPositionOnField = this.GetLionsPositionOnField(gameField);
+            if (lionsPositionOnField.IsInViewRange)
             {
-                for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
+                this.RunAwayFromLion(lionsPositionOnField);
+            }
+            else
+            {
+                this.ChillAroundAndEatGrass();
+            }
+            
+        }
+
+        private void ChillAroundAndEatGrass()
+        {
+            throw new NotImplementedException();
+        }
+
+        //TO DO: Antilope tries to avoid Lion
+
+
+        private PositionOnField GetLionsPositionOnField(SavannahGameField gameField)
+    {
+            PositionOnField LionsPositionOnField = new PositionOnField();
+        for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
+        {
+            for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
+            {
+                if (gameField.SavannahField[x, y].Name == "L")
                 {
-                    if (gameField.SavannahField[x, y].Name == "L")
-                    {
-                        this.RunAwayFromLion();
-                    }
+                    LionsPositionOnField.XPosition = x;
+                    LionsPositionOnField.YPosition = y;
+                    return LionsPositionOnField;
                 }
             }
-            //TO DO: Antilope tries to avoid Lion
         }
+            LionsPositionOnField.IsInViewRange = false;
+            return LionsPositionOnField;
+    }
 
-        private void RunAwayFromLion()
+    private void RunAwayFromLion(PositionOnField lionsPositionOnField)
+    {
+        //if this.PositionOnField.XPosition > xPositionOfLion dont move back
+
+        if (this.PositionOnField.XPosition > lionsPositionOnField.XPosition)
         {
-            var random = new Random();
-            var movesToMake = random.Next(1, 4);
-
+            this.PositionOnField.XPosition += 2;
         }
-
-        public void SpecialAction()
+        else
         {
-            //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
+            this.PositionOnField.XPosition -= 2;
         }
+
+        if (this.PositionOnField.YPosition > lionsPositionOnField.YPosition)
+        {
+            this.PositionOnField.YPosition += 2;
+        }
+        else
+        {
+            this.PositionOnField.YPosition -= 2;
+        }
+        //if this.PositionOnField.XPosition < xPositionOfLion dont move forward
+    }
+
+    public void SpecialAction()
+    {
+        //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
+    }
+
     }
 }
