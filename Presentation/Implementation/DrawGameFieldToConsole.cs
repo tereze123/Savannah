@@ -11,8 +11,8 @@ namespace Presentation.Implementation
             {
                 for (int j = 0; j < gameField.SavannahField.GetLength(0); j++)
                 {
-                    Console.SetCursorPosition(10 + (j * 2), 5 + i);
-                    Console.Write("__");
+                    Console.SetCursorPosition(10 + (j * 3), 5 + i);
+                    Console.Write("|__");
                 }
                 Console.WriteLine();
             }

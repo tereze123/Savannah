@@ -4,11 +4,11 @@ namespace Entities.GameField
 {
     public class SavannahGameField
     {
-        public Animal[,] SavannahField { get; set; }
+        public IAnimal[,] SavannahField { get; set; }
 
         public SavannahGameField()
         {
-            this.SavannahField = new Animal[20,20];
+            this.SavannahField = new IAnimal[20,20];
         }        
     }
 }
