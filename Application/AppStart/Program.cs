@@ -1,4 +1,6 @@
-﻿using Application.GameEngine;
+﻿using Application.AppStart.Dependencies;
+using Application.GameEngine;
+using Entities.GameField;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Implementation;
 using Presentation.Interfaces;
@@ -8,15 +10,20 @@ namespace Application
 {
    public class Program
     {
-        public void Configure()
-        {
-            ServiceCollection services = new ServiceCollection();
-            services.AddTransient<IInputOutput, InputAndOutputForConsole>();
-        }
+
+
+        //public SavannahEngine FactoryTest()
+        //{
+        //    var serviceProvider = tGetServiceProvider();
+        //    SavannahEngine savannahGame = serviceProvider.GetService<SavannahEngine>();
+        //    return savannahGame;
+        //}
 
         static void Main(string[] args)
         {
-            SavannahEngine savannahEngine = new SavannahEngine();
+            DependencyInjectionContainer dependencyInjectionContainer = new DependencyInjectionContainer();
+            ServiceProvider serviceProvider = dependencyInjectionContainer.GetServiceProvider();
+            SavannahEngine savannahEngine = serviceProvider.GetService<SavannahEngine>();
             savannahEngine.Start();
             Console.ReadLine();
         }
