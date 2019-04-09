@@ -2,7 +2,7 @@
 
 namespace Entities.GameField
 {
-    public class SavannahGameField
+    public class SavannahGameField : ISavannahGameField
     {
         public IAnimal[,] SavannahField { get; set; }
 

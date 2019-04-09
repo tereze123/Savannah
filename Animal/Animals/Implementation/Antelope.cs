@@ -11,9 +11,11 @@ namespace Entities.Animals.Implementation
 
         public PositionOnField PositionOnField { get; set; }
 
-        public Antelope(PositionOnField lionsPositionOnField)
+        public PositionOnField LionsPositionOnField { get; set; }
+
+        public Antelope()
         {
-            this.lionsPositionOnField = lionsPositionOnField;
+            LionsPositionOnField = new PositionOnField();
             this.Name = "A";
             this.VisionRange = 5;
             this.PositionOnField = new PositionOnField();

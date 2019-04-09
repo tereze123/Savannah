@@ -1,68 +1,50 @@
 ﻿using Entities.Animals;
 using Entities.Animals.Implementation;
 using Entities.GameField;
-using Presentation.Implementation;
+using Presentation.Interfaces;
 using System;
 
 namespace Application.GameEngine
 {
     public class SavannahEngine
     {
-        private readonly SavannahGameField gameField;
-        private readonly DrawGameFieldToConsole gameFieldDrawer;
-        private readonly Random random;
-        private ConsoleKeyInfo consoleKeyInfo;
-        private PositionOnField randomPosition;
+        private readonly ISavannahGameField gameField; 
+        private readonly IInputOutput inputOutput; 
+        private readonly Random random; 
+        private PositionOnField randomPosition; 
 
-        private PositionOnField positionOnField { get; }
-
-        public SavannahEngine(
-            SavannahGameField gameField, 
-            ConsoleKeyInfo consoleKeyInfo, 
-            DrawGameFieldToConsole gameFieldDrawer,
-            Random random,
-            PositionOnField positionOnField,
-            PositionOnField randomPosition)
+        public SavannahEngine( ISavannahGameField gameField, IInputOutput inputOutput)
         {
             this.gameField = gameField;
-            this.consoleKeyInfo = consoleKeyInfo;
-            this.gameFieldDrawer = gameFieldDrawer;
-            this.random = random;
-            this.positionOnField = positionOnField;
-            this.randomPosition = randomPosition;
-        }
-        public void Start()
-        {
-            this.DrawGameScreen(gameField);
-            do
-            {
-                consoleKeyInfo = Console.ReadKey(true);
-                if (consoleKeyInfo.Key == ConsoleKey.A) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
-                else if(consoleKeyInfo.Key == ConsoleKey.L) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
-            } while (consoleKeyInfo.Key != ConsoleKey.Escape);            
+            this.inputOutput = inputOutput;
+            this.random = new Random();
+            this.randomPosition = new PositionOnField();
         }
 
-        private void DrawGameScreen(SavannahGameField gameField)
+        public void Start()
         {
-            gameFieldDrawer.DrawGameField(gameField);
+            inputOutput.DrawGameField(gameField);
+            string keyPressedByUser;
+            keyPressedByUser = inputOutput.ReturnKeyPressed();
+            if (keyPressedByUser == "A") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
+            else if (keyPressedByUser == "L") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
         }
 
         private PositionOnField GetRandomPositionOnField()
         {
-            positionOnField.XPosition = random.Next(0, 20);
-            positionOnField.YPosition = random.Next(0, 20);
-            return positionOnField;
+            randomPosition.XPosition = random.Next(0, 20);
+            randomPosition.YPosition = random.Next(0, 20);
+            return randomPosition;
         }
 
-        private void PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(SavannahGameField gameField, IAnimal animal)
+        private void PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(ISavannahGameField gameField, IAnimal animal)
         {
             do
             {
                 randomPosition = GetRandomPositionOnField();
             } while (gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] != null);
-
             gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] = animal;
-            this.DrawGameScreen(gameField);
+            inputOutput.DrawGameField(gameField);
         }
     }
 }
