@@ -26,7 +26,7 @@ namespace Entities.Animals.Implementation
         //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
     }
 
-        public void Move(SavannahGameField gameField)
+        public void Move(ISavannahGameField gameField)
         {
             lionsPositionOnField = this.GetLionsPositionOnField(gameField);
             if (lionsPositionOnField.IsInViewRange)
@@ -48,7 +48,7 @@ namespace Entities.Animals.Implementation
         }
         //TO DO: Antilope tries to avoid Lion
 
-        private PositionOnField GetLionsPositionOnField(SavannahGameField gameField)
+        private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
     {
         for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
         {

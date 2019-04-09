@@ -1,31 +1,15 @@
-﻿using Application.AppStart.Dependencies;
-using Application.GameEngine;
-using Entities.GameField;
-using Microsoft.Extensions.DependencyInjection;
-using Presentation.Implementation;
-using Presentation.Interfaces;
-using System;
+﻿using Application.GameEngine;
+using Application.GameEngine.Factories;
 
 namespace Application
 {
-   public class Program
+    public class Program
     {
-
-
-        //public SavannahEngine FactoryTest()
-        //{
-        //    var serviceProvider = tGetServiceProvider();
-        //    SavannahEngine savannahGame = serviceProvider.GetService<SavannahEngine>();
-        //    return savannahGame;
-        //}
-
         static void Main(string[] args)
         {
-            DependencyInjectionContainer dependencyInjectionContainer = new DependencyInjectionContainer();
-            ServiceProvider serviceProvider = dependencyInjectionContainer.GetServiceProvider();
-            SavannahEngine savannahEngine = serviceProvider.GetService<SavannahEngine>();
+            GameEngineFactory gameEngineFactory = new GameEngineFactory();
+            SavannahEngine savannahEngine = gameEngineFactory.GetNewGameEngine();
             savannahEngine.Start();
-            Console.ReadLine();
         }
     }
 }

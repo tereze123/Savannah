@@ -30,10 +30,11 @@ namespace Application.GameEngine
             else if (keyPressedByUser == "L") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
         }
 
-        private PositionOnField GetRandomPositionOnField()
+        private PositionOnField GetRandomPositionOnField(ISavannahGameField gameField)
         {
-            randomPosition.XPosition = random.Next(0, 20);
-            randomPosition.YPosition = random.Next(0, 20);
+            int gameFieldSize = gameField.SavannahField.GetLength(0);
+            randomPosition.XPosition = random.Next(0, gameFieldSize);
+            randomPosition.YPosition = random.Next(0, gameFieldSize);
             return randomPosition;
         }
 

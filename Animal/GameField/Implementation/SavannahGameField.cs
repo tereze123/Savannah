@@ -1,4 +1,6 @@
 ﻿using Entities.Animals;
+using Microsoft.Extensions.Configuration;
+using System.IO;
 
 namespace Entities.GameField
 {
@@ -6,9 +8,19 @@ namespace Entities.GameField
     {
         public IAnimal[,] SavannahField { get; set; }
 
-        public SavannahGameField()
+        public SavannahGameField(int fieldSize)
         {
-            this.SavannahField = new IAnimal[20,20];
-        }        
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+
+            int FIELD_SIZE = int.Parse(configuration["FieldSize"]);
+
+            this.SavannahField = new IAnimal[FIELD_SIZE, FIELD_SIZE];
+        }
+        
+
     }
 }

@@ -7,9 +7,9 @@ namespace Presentation.Implementation
     {
         private ConsoleKeyInfo consoleKeyInfo;
 
-        public InputAndOutputForConsole(ConsoleKeyInfo consoleKeyInfo)
+        public InputAndOutputForConsole()
         {
-            this.consoleKeyInfo = consoleKeyInfo;
+            this.consoleKeyInfo = new ConsoleKeyInfo();
         }
         public void DrawGameField(ISavannahGameField gameField)
         {

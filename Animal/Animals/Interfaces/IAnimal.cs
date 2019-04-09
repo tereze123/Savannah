@@ -10,7 +10,7 @@ namespace Entities.Animals
 
         int VisionRange { get; set; }
 
-        void Move(SavannahGameField gameField);
+        void Move(ISavannahGameField gameField);
 
         void SpecialAction();
     }

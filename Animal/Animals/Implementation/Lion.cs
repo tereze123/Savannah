@@ -16,7 +16,7 @@ namespace Entities.Animals.Implementation
             this.VisionRange = 7;
         }
 
-        public void Move(SavannahGameField gameField)
+        public void Move(ISavannahGameField gameField)
         {
             //TO DO: Implement Lion Move - Chase Antilope
         }
