@@ -8,7 +8,7 @@ namespace Entities.GameField
     {
         public IAnimal[,] SavannahField { get; set; }
 
-        public SavannahGameField(int fieldSize)
+        public SavannahGameField()
         {
             var builder = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())

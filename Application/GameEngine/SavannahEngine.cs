@@ -8,12 +8,12 @@ namespace Application.GameEngine
 {
     public class SavannahEngine
     {
-        private readonly ISavannahGameField gameField; 
-        private readonly IInputOutput inputOutput; 
-        private readonly Random random; 
-        private PositionOnField randomPosition; 
+        private readonly ISavannahGameField gameField;
+        private readonly IInputOutput inputOutput;
+        private readonly Random random;
+        private PositionOnField randomPosition;
 
-        public SavannahEngine( ISavannahGameField gameField, IInputOutput inputOutput)
+        public SavannahEngine(ISavannahGameField gameField, IInputOutput inputOutput)
         {
             this.gameField = gameField;
             this.inputOutput = inputOutput;
@@ -25,9 +25,12 @@ namespace Application.GameEngine
         {
             inputOutput.DrawGameField(gameField);
             string keyPressedByUser;
-            keyPressedByUser = inputOutput.ReturnKeyPressed();
-            if (keyPressedByUser == "A") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
-            else if (keyPressedByUser == "L") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
+            do
+            {
+                keyPressedByUser = inputOutput.ReturnKeyPressed();
+                if (keyPressedByUser == "A") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
+                else if (keyPressedByUser == "L") { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
+            } while (keyPressedByUser != "ESC");
         }
 
         private PositionOnField GetRandomPositionOnField(ISavannahGameField gameField)
@@ -42,7 +45,7 @@ namespace Application.GameEngine
         {
             do
             {
-                randomPosition = GetRandomPositionOnField();
+                randomPosition = GetRandomPositionOnField(gameField);
             } while (gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] != null);
             gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] = animal;
             inputOutput.DrawGameField(gameField);

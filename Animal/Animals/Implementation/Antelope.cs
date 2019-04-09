@@ -36,8 +36,7 @@ namespace Entities.Animals.Implementation
             else
             {
                 this.ChillAroundAndEatGrass();
-            }
-            
+            }            
         }
 
         private PositionOnField lionsPositionOnField;
