@@ -5,22 +5,27 @@ namespace Entities.Animals.Implementation
 {
     public class Antelope : IAnimal
     {
+        public string Name { get; set; }
+
         public int VisionRange { get; set; }
 
         public PositionOnField PositionOnField { get; set; }
 
-        public string Name { get; set; }
-
-        public Antelope()
+        public Antelope(PositionOnField lionsPositionOnField)
         {
+            this.lionsPositionOnField = lionsPositionOnField;
             this.Name = "A";
             this.VisionRange = 5;
             this.PositionOnField = new PositionOnField();
         }
 
+        public void SpecialAction()
+    {
+        //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
+    }
+
         public void Move(SavannahGameField gameField)
         {
-            PositionOnField lionsPositionOnField = new PositionOnField();
             lionsPositionOnField = this.GetLionsPositionOnField(gameField);
             if (lionsPositionOnField.IsInViewRange)
             {
@@ -33,34 +38,33 @@ namespace Entities.Animals.Implementation
             
         }
 
+        private PositionOnField lionsPositionOnField;
+        
         private void ChillAroundAndEatGrass()
         {
             throw new NotImplementedException();
         }
-
         //TO DO: Antilope tries to avoid Lion
-
 
         private PositionOnField GetLionsPositionOnField(SavannahGameField gameField)
     {
-            PositionOnField LionsPositionOnField = new PositionOnField();
         for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
         {
             for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
             {
                 if (gameField.SavannahField[x, y].Name == "L")
                 {
-                    LionsPositionOnField.XPosition = x;
-                    LionsPositionOnField.YPosition = y;
-                    return LionsPositionOnField;
+                        lionsPositionOnField.XPosition = x;
+                        lionsPositionOnField.YPosition = y;
+                    return lionsPositionOnField;
                 }
             }
         }
-            LionsPositionOnField.IsInViewRange = false;
-            return LionsPositionOnField;
+            lionsPositionOnField.IsInViewRange = false;
+            return lionsPositionOnField;
     }
 
-    private void RunAwayFromLion(PositionOnField lionsPositionOnField)
+        private void RunAwayFromLion(PositionOnField lionsPositionOnField)
     {
         //if this.PositionOnField.XPosition > xPositionOfLion dont move back
 
@@ -83,11 +87,5 @@ namespace Entities.Animals.Implementation
         }
         //if this.PositionOnField.XPosition < xPositionOfLion dont move forward
     }
-
-    public void SpecialAction()
-    {
-        //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
-    }
-
     }
 }

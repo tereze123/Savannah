@@ -8,29 +8,47 @@ namespace Application.GameEngine
 {
     public class SavannahEngine
     {
+        private readonly SavannahGameField gameField;
+        private readonly DrawGameFieldToConsole gameFieldDrawer;
+        private readonly Random random;
+        private ConsoleKeyInfo consoleKeyInfo;
+        private PositionOnField randomPosition;
+
+        private PositionOnField positionOnField { get; }
+
+        public SavannahEngine(
+            SavannahGameField gameField, 
+            ConsoleKeyInfo consoleKeyInfo, 
+            DrawGameFieldToConsole gameFieldDrawer,
+            Random random,
+            PositionOnField positionOnField,
+            PositionOnField randomPosition)
+        {
+            this.gameField = gameField;
+            this.consoleKeyInfo = consoleKeyInfo;
+            this.gameFieldDrawer = gameFieldDrawer;
+            this.random = random;
+            this.positionOnField = positionOnField;
+            this.randomPosition = randomPosition;
+        }
         public void Start()
         {
-            SavannahGameField gameField = new SavannahGameField();
             this.DrawGameScreen(gameField);
-            ConsoleKeyInfo cki = new ConsoleKeyInfo();
             do
             {
-                cki = Console.ReadKey(true);
-                if (cki.Key == ConsoleKey.A) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
-                else if(cki.Key == ConsoleKey.L) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
-            } while (cki.Key != ConsoleKey.Escape);            
+                consoleKeyInfo = Console.ReadKey(true);
+                if (consoleKeyInfo.Key == ConsoleKey.A) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Antelope()); }
+                else if(consoleKeyInfo.Key == ConsoleKey.L) { this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, new Lion()); }
+            } while (consoleKeyInfo.Key != ConsoleKey.Escape);            
         }
 
         private void DrawGameScreen(SavannahGameField gameField)
         {
-            DrawGameFieldToConsole gameFieldDrawer = new DrawGameFieldToConsole();
             gameFieldDrawer.DrawGameField(gameField);
         }
 
         private PositionOnField GetRandomPositionOnField()
         {
-            var random = new Random();
-            PositionOnField positionOnField = new PositionOnField();
             positionOnField.XPosition = random.Next(0, 20);
             positionOnField.YPosition = random.Next(0, 20);
             return positionOnField;
@@ -38,7 +56,6 @@ namespace Application.GameEngine
 
         private void PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(SavannahGameField gameField, IAnimal animal)
         {
-            PositionOnField randomPosition = new PositionOnField();
             do
             {
                 randomPosition = GetRandomPositionOnField();
