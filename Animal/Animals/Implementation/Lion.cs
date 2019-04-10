@@ -4,9 +4,6 @@ namespace Entities.Animals.Implementation
 {
     public class Lion : IAnimal
     {
-        public string Name { get; set; }
-
-        public int VisionRange { get; set; }
 
         public PositionOnField PositionOnField { get; set; }
 
@@ -17,16 +14,14 @@ namespace Entities.Animals.Implementation
             this.PositionOnField = new PositionOnField();
         }
 
-        public void PeaceStateMovement(ISavannahGameField gameField)
+        public override void PeaceStateMovement(ISavannahGameField gameField)
         {
-            //TO DO: Implement Lion Move - Chase Antilope
+            throw new System.NotImplementedException();
         }
 
-        public void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, ISavannahGameField gameField)
+        public override void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy, ISavannahGameField gameField)
         {
-            
-            //TO DO: Implement Lion SpecialAction - shoot lazors with one out of 10 possibility. Lazor range - 7 blocks. Damage - 3% of preys health
+            throw new System.NotImplementedException();
         }
-
     }
 }

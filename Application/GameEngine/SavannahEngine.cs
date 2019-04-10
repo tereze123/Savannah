@@ -85,8 +85,8 @@ namespace Application.GameEngine
                 randomPosition = GetRandomPositionOnField(gameField);
             } while (gameField.SavannahField[randomPosition.RowPosition, randomPosition.ColumnPosition] != null);
             gameField.SavannahField[randomPosition.RowPosition, randomPosition.ColumnPosition] = animal;
-            animal.PositionOnField.RowPosition = randomPosition.RowPosition;
-            animal.PositionOnField.ColumnPosition = randomPosition.ColumnPosition;
+            animal.AnimalsPositionOnField.RowPosition = randomPosition.RowPosition;
+            animal.AnimalsPositionOnField.ColumnPosition = randomPosition.ColumnPosition;
             inputOutput.DrawGameField(gameField);
         }
     }
