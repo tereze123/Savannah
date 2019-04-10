@@ -20,7 +20,7 @@ namespace Entities.Animals.Implementation
         {
             this.lionsPositionOnField = new PositionOnField();
             this.Name = "A";
-            this.VisionRange = 5;
+            this.VisionRange = 2;
             this.PositionOnField = new PositionOnField();
             this.rand = new Random(); ;
         }
@@ -66,7 +66,11 @@ namespace Entities.Animals.Implementation
                     throw new ArgumentException();
             }
             if (gameField.SavannahField[tempChangedXPosition, tempChangedYPosition] == null)
-                ChangePositionOnField(gameField, existingXPositionOnField, existingYPositionOnField);
+            {
+                this.PositionOnField.XPosition = tempChangedXPosition;
+                this.PositionOnField.YPosition = tempChangedYPosition;
+                this.ChangePositionOnField(gameField, existingXPositionOnField, existingYPositionOnField);
+            }
         }
 
         private void ChangePositionOnField(ISavannahGameField gameField, int lastXPositionOnField, int lastYPositionOnField)
@@ -78,20 +82,22 @@ namespace Entities.Animals.Implementation
         //Set looparound the field
         private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
         {
-            var gameSize = gameField.SavannahField.GetLength(0) - 1;
-            for (int x = (VisionRange * -1); x < VisionRange; x++)
+            int antilopesXPosition = this.PositionOnField.XPosition;
+            int antilopesYPosition = this.PositionOnField.YPosition;
+            var gameSize = gameField.SavannahField.GetLength(0);
+            for (int i = (VisionRange * - 1); i < VisionRange + 1; i++)
             {
-                for (int y = (VisionRange * -1); y < +VisionRange; y++)
+                for (int j = (VisionRange * -1); j < VisionRange + 1; j++)
                 {
-                    var row = (y + this.PositionOnField.XPosition + gameSize) % gameSize;
-                    var column = (x + this.PositionOnField.YPosition + gameSize) % gameSize;
+                    int row = (i + antilopesXPosition + gameSize) % gameSize;
+                    int column = (j + antilopesYPosition + gameSize) % gameSize;
 
-                    if (gameField.SavannahField[column, row] != null)
+                    if (gameField.SavannahField[row, column] != null)
                     {
-                        if ((gameField.SavannahField[column, row]).Name == "L")
+                        if ((gameField.SavannahField[row, column]).Name == "L")
                         {
                             lionsPositionOnField.XPosition = column;
-                            lionsPositionOnField.YPosition = row;
+                            lionsPositionOnField.YPosition = row ;
                             lionsPositionOnField.IsInViewRange = true;
                             return lionsPositionOnField;
                         }
