@@ -14,6 +14,7 @@ namespace Entities.Animals.Implementation
         {
             this.Name = "L";
             this.VisionRange = 7;
+            this.PositionOnField = new PositionOnField();
         }
 
         public void PeaceStateMovement(ISavannahGameField gameField)

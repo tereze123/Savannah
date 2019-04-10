@@ -25,11 +25,6 @@ namespace Entities.Animals.Implementation
             this.rand = new Random(); ;
         }
 
-        public void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField,ISavannahGameField gameField)
-        {
-            throw new NotImplementedException();
-        }
-
         public void PeaceStateMovement(ISavannahGameField gameField)
         {
             lionsPositionOnField = this.GetLionsPositionOnField(gameField);
@@ -45,29 +40,33 @@ namespace Entities.Animals.Implementation
 
         private void ChillAround(ISavannahGameField gameField)
         {
+            int gameSize = gameField.SavannahField.GetLength(0);
             int existingXPositionOnField = this.PositionOnField.XPosition;
             int existingYPositionOnField = this.PositionOnField.YPosition;
             int randomMovement = rand.Next(1, 5);
             MovementWay movementWay = (MovementWay)randomMovement;
 
+            int tempChangedXPosition = this.PositionOnField.XPosition;
+            int tempChangedYPosition = this.PositionOnField.YPosition;
             switch (movementWay)
             {
                 case MovementWay.Up:
-                    this.PositionOnField.YPosition += 1;
+                    tempChangedYPosition = (this.PositionOnField.YPosition + 1 +  gameSize) % gameSize;
                     break;
                 case MovementWay.Down:
-                    this.PositionOnField.YPosition -= 1;
+                    tempChangedYPosition = (this.PositionOnField.YPosition - 1 + gameSize) % gameSize;
                     break;
                 case MovementWay.Left:
-                    this.PositionOnField.XPosition -= 1;
+                    tempChangedXPosition = (this.PositionOnField.XPosition - 1 + gameSize) % gameSize;
                     break;
                 case MovementWay.Right:
-                    this.PositionOnField.XPosition += 1;
+                    tempChangedXPosition = (this.PositionOnField.XPosition + 1 + gameSize) % gameSize;
                     break;
                 default:
                     throw new ArgumentException();
             }
-            ChangePositionOnField(gameField, existingXPositionOnField, existingYPositionOnField);
+            if (gameField.SavannahField[tempChangedXPosition, tempChangedYPosition] == null)
+                ChangePositionOnField(gameField, existingXPositionOnField, existingYPositionOnField);
         }
 
         private void ChangePositionOnField(ISavannahGameField gameField, int lastXPositionOnField, int lastYPositionOnField)
@@ -79,50 +78,56 @@ namespace Entities.Animals.Implementation
         //Set looparound the field
         private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
         {
-            var gameSize = gameField.SavannahField.GetLength(0);
-            for (int x = (VisionRange * - 1); x <  VisionRange; x++)
+            var gameSize = gameField.SavannahField.GetLength(0) - 1;
+            for (int x = (VisionRange * -1); x < VisionRange; x++)
             {
-                for (int y = (VisionRange * -1); y < + VisionRange; y++)
+                for (int y = (VisionRange * -1); y < +VisionRange; y++)
                 {
-                    var row = (x + this.PositionOnField.XPosition + gameSize) % gameSize;
-                    var column = (y + this.PositionOnField.YPosition + gameSize) % gameSize;
-                    if(gameField.SavannahField[row, column].Name != null)
-                    {
+                    var row = (y + this.PositionOnField.XPosition + gameSize) % gameSize;
+                    var column = (x + this.PositionOnField.YPosition + gameSize) % gameSize;
 
-                    if (gameField.SavannahField[row, column].Name == "L")
+                    if (gameField.SavannahField[column, row] != null)
                     {
-                        lionsPositionOnField.XPosition = row;
-                        lionsPositionOnField.YPosition = column;
-                        return lionsPositionOnField;
-                    }
-
+                        if ((gameField.SavannahField[column, row]).Name == "L")
+                        {
+                            lionsPositionOnField.XPosition = column;
+                            lionsPositionOnField.YPosition = row;
+                            lionsPositionOnField.IsInViewRange = true;
+                            return lionsPositionOnField;
+                        }
                     }
                 }
             }
-        lionsPositionOnField.IsInViewRange = false;
-        return lionsPositionOnField;
+            return lionsPositionOnField;
         }
 
-        private void RunAwayFromLion(PositionOnField lionsPositionOnField)
+        public void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, ISavannahGameField gameField)
         {
+            int existingXPositionOnField = this.PositionOnField.XPosition;
+            int existingYPositionOnField = this.PositionOnField.YPosition;
+            int gameSize = gameField.SavannahField.GetLength(0);
+            int tempChangedXPosition = this.PositionOnField.XPosition;
+            int tempChangedYPosition = this.PositionOnField.YPosition;
 
-        if (this.PositionOnField.XPosition > lionsPositionOnField.XPosition)
-        {
-            this.PositionOnField.XPosition += 2;
-        }
-        else
-        {
-            this.PositionOnField.XPosition -= 2;
-        }
+            if (this.PositionOnField.XPosition > lionsPositionOnField.XPosition)
+            {
+                tempChangedXPosition = this.PositionOnField.XPosition = (this.PositionOnField.XPosition + 2 + gameSize) % gameSize;
+            }
+            else
+            {
+                tempChangedXPosition = (this.PositionOnField.XPosition - 2 + gameSize) % gameSize;
+            }
 
-        if (this.PositionOnField.YPosition > lionsPositionOnField.YPosition)
-        {
-            this.PositionOnField.YPosition += 2;
+            if (this.PositionOnField.YPosition > lionsPositionOnField.YPosition)
+            {
+                tempChangedYPosition = (this.PositionOnField.YPosition + 2 + gameSize) % gameSize;
+            }
+            else
+            {
+                tempChangedYPosition = (this.PositionOnField.YPosition - 2 + gameSize) % gameSize;
+            }
+            if (gameField.SavannahField[tempChangedXPosition, tempChangedYPosition] == null)
+                ChangePositionOnField(gameField, existingXPositionOnField, existingYPositionOnField);
         }
-        else
-        {
-            this.PositionOnField.YPosition -= 2;
-        }
-    }
     }
 }

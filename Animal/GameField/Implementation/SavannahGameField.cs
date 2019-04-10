@@ -19,8 +19,6 @@ namespace Entities.GameField
             int FIELD_SIZE = int.Parse(configuration["FieldSize"]);
 
             this.SavannahField = new IAnimal[FIELD_SIZE, FIELD_SIZE];
-        }
-        
-
+        }       
     }
 }

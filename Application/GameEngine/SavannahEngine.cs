@@ -27,8 +27,17 @@ namespace Application.GameEngine
         public void Start()
         {
             inputOutput.DrawGameField(gameField);
+            for (int i = 0; i < 1000; i++)
+            {
+                LoopTheGame();
+            }
+        }
+
+        private void LoopTheGame()
+        {
             this.UsersTurnToAddAnimals();
             this.PlayGame();
+            inputOutput.DrawGameField(gameField);
         }
 
         private void PlayGame()

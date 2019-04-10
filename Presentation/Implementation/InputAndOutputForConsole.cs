@@ -19,7 +19,7 @@ namespace Presentation.Implementation
                 if(x == 0)
                 {
                     Console.SetCursorPosition(9, 4);
-                    for (int a = 0; a < gameField.SavannahField.GetLength(0) * 3 + 2; a++)
+                    for (int a = 0; a < gameField.SavannahField.GetLength(0) + 2; a++)
                     {
                         Console.Write("-");
                     }
@@ -27,7 +27,7 @@ namespace Presentation.Implementation
                 if (x == gameField.SavannahField.GetLength(0) - 1)
                 {
                     Console.SetCursorPosition(9 , gameField.SavannahField.GetLength(0) + 5);
-                    for (int a = 0; a < gameField.SavannahField.GetLength(0) * 3 + 2; a++)
+                    for (int a = 0; a < gameField.SavannahField.GetLength(0) + 2; a++)
                     {
                         Console.Write("-");
                     }
@@ -36,15 +36,15 @@ namespace Presentation.Implementation
                 {
                     if (y == 0)
                     {
-                        Console.SetCursorPosition(9 + (y * 3), 5 + x);
+                        Console.SetCursorPosition(9 + (y), 5 + x);
                         Console.Write("-");
                     }
                     if (y == gameField.SavannahField.GetLength(0) - 1)
                     {
-                        Console.SetCursorPosition(10 + (gameField.SavannahField.GetLength(0) * 3), 5 + x);
+                        Console.SetCursorPosition(10 + (gameField.SavannahField.GetLength(0)), 5 + x);
                         Console.Write("-");
                     }
-                    Console.SetCursorPosition(10 + (y * 3), 5 + x);
+                    Console.SetCursorPosition(10 + (y), 5 + x);
                     this.OutputAnimalNameOrBlank(gameField, x, y);
                 }
                 Console.WriteLine();
@@ -66,11 +66,11 @@ namespace Presentation.Implementation
         {
             if (gameField.SavannahField[x, y] == null)
             {
-                Console.Write("   ");
+                Console.Write(" ");
             }
             else
             {
-                Console.Write($" " + gameField.SavannahField[x, y].Name + " ");
+                Console.Write(gameField.SavannahField[x, y].Name);
             }
         }
     }
