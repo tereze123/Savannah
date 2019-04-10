@@ -79,15 +79,23 @@ namespace Entities.Animals.Implementation
         //Set looparound the field
         private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
         {
-            for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
+            var gameSize = gameField.SavannahField.GetLength(0);
+            for (int x = (VisionRange * - 1); x <  VisionRange; x++)
             {
-                for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
+                for (int y = (VisionRange * -1); y < + VisionRange; y++)
                 {
-                    if (gameField.SavannahField[x, y].Name == "L")
+                    var row = (x + this.PositionOnField.XPosition + gameSize) % gameSize;
+                    var column = (y + this.PositionOnField.YPosition + gameSize) % gameSize;
+                    if(gameField.SavannahField[row, column].Name != null)
                     {
-                        lionsPositionOnField.XPosition = x;
-                        lionsPositionOnField.YPosition = y;
+
+                    if (gameField.SavannahField[row, column].Name == "L")
+                    {
+                        lionsPositionOnField.XPosition = row;
+                        lionsPositionOnField.YPosition = column;
                         return lionsPositionOnField;
+                    }
+
                     }
                 }
             }

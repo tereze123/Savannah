@@ -2,6 +2,7 @@
 
 namespace Entities.Animals
 {
+    //japarveido uz abstraktu klasi lai var konstruktora pielimet jaunu positiononfield un name
     public interface IAnimal
     {
         PositionOnField PositionOnField { get; set; }
