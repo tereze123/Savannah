@@ -2,9 +2,9 @@
 {
     public class PositionOnField
     {
-        public int XPosition { get; set; }
+        public int RowPosition { get; set; }
 
-        public int YPosition { get; set; }
+        public int ColumnPosition { get; set; }
 
         public bool IsInViewRange { get; set; }
     }

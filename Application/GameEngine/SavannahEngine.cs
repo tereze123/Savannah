@@ -73,8 +73,8 @@ namespace Application.GameEngine
         private PositionOnField GetRandomPositionOnField(ISavannahGameField gameField)
         {
             int gameFieldSize = gameField.SavannahField.GetLength(0);
-            randomPosition.XPosition = random.Next(0, gameFieldSize);
-            randomPosition.YPosition = random.Next(0, gameFieldSize);
+            randomPosition.RowPosition = random.Next(0, gameFieldSize);
+            randomPosition.ColumnPosition = random.Next(0, gameFieldSize);
             return randomPosition;
         }
 
@@ -83,10 +83,10 @@ namespace Application.GameEngine
             do
             {
                 randomPosition = GetRandomPositionOnField(gameField);
-            } while (gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] != null);
-            gameField.SavannahField[randomPosition.XPosition, randomPosition.YPosition] = animal;
-            animal.PositionOnField.XPosition = randomPosition.YPosition;
-            animal.PositionOnField.YPosition = randomPosition.XPosition;
+            } while (gameField.SavannahField[randomPosition.RowPosition, randomPosition.ColumnPosition] != null);
+            gameField.SavannahField[randomPosition.RowPosition, randomPosition.ColumnPosition] = animal;
+            animal.PositionOnField.RowPosition = randomPosition.RowPosition;
+            animal.PositionOnField.ColumnPosition = randomPosition.ColumnPosition;
             inputOutput.DrawGameField(gameField);
         }
     }

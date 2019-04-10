@@ -1,30 +1,43 @@
 ﻿using Entities.GameField;
+using Microsoft.Extensions.Configuration;
 using Presentation.Interfaces;
 using System;
+using System.IO;
+
 namespace Presentation.Implementation
 {
     public class InputAndOutputForConsole : IInputOutput
     {
         private ConsoleKeyInfo consoleKeyInfo;
 
+        private readonly int OFFSET_FROM_LEFT_SIDE;
+        private readonly int OFFSET_FROM_TOP;
+
         public InputAndOutputForConsole()
         {
             this.consoleKeyInfo = new ConsoleKeyInfo();
+            var builder = new ConfigurationBuilder()
+                                .SetBasePath(Directory.GetCurrentDirectory())
+                                .AddJsonFile("appsettings.json");
+
+            var configuration = builder.Build();
+            this.OFFSET_FROM_LEFT_SIDE = int.Parse(configuration["OffsetFromLeftSide"]);
+            this.OFFSET_FROM_TOP = int.Parse(configuration["OffsetFromTop"]);
         }
 
         public void DrawGameField(ISavannahGameField gameField)
         {
             Console.CursorVisible = false;
 
-            for (int x = 0; x < gameField.SavannahField.GetLength(0); x++)
+            for (int rowNumber = 0; rowNumber < gameField.SavannahField.GetLength(0); rowNumber++)
             {
-                this.DrawTopAndBottomBorder(gameField, x);
+                this.DrawTopAndBottomBorder(gameField, rowNumber);
 
-                for (int y = 0; y < gameField.SavannahField.GetLength(0); y++)
+                for (int columnNumber = 0; columnNumber < gameField.SavannahField.GetLength(0); columnNumber++)
                 {
-                    this.DrawSideBorders(gameField, x, y);
-                    Console.SetCursorPosition(10 + (y), 5 + x);
-                    this.OutputAnimalNameOrBlank(gameField, x, y);
+                    this.DrawSideBorders(gameField, rowNumber, columnNumber);
+                    Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE + columnNumber, OFFSET_FROM_TOP + rowNumber);
+                    this.OutputAnimalNameOrBlank(gameField, rowNumber, columnNumber);
                 }
                 Console.WriteLine();
             }
@@ -34,52 +47,52 @@ namespace Presentation.Implementation
         {
             do
             {
-            consoleKeyInfo = Console.ReadKey(true);
-            if (consoleKeyInfo.Key == ConsoleKey.A) { return "A"; }
-            else if (consoleKeyInfo.Key == ConsoleKey.L) { return "L"; }
-            }while(consoleKeyInfo.Key != ConsoleKey.Escape);
+                consoleKeyInfo = Console.ReadKey(true);
+                if (consoleKeyInfo.Key == ConsoleKey.A) { return "A"; }
+                else if (consoleKeyInfo.Key == ConsoleKey.L) { return "L"; }
+            } while (consoleKeyInfo.Key != ConsoleKey.Escape);
             return "ESC";
         }
 
-        private void OutputAnimalNameOrBlank(ISavannahGameField gameField,int x, int y)
+        private void OutputAnimalNameOrBlank(ISavannahGameField gameField, int rowNumber, int columnNumber)
         {
-            if (gameField.SavannahField[x, y] == null)
+            if (gameField.SavannahField[rowNumber, columnNumber] == null)
             {
                 Console.Write(" ");
             }
             else
             {
-                Console.Write(gameField.SavannahField[x, y].Name);
+                Console.Write(gameField.SavannahField[rowNumber, columnNumber].Name);
             }
         }
 
-        private void DrawSideBorders(ISavannahGameField gameField, int x, int y)
+        private void DrawSideBorders(ISavannahGameField gameField, int rowNumber, int columnNumber)
         {
-            if (y == 0)
+            if (columnNumber == 0)
             {
-                Console.SetCursorPosition(9 + (y), 5 + x);
+                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1 + columnNumber, OFFSET_FROM_TOP + rowNumber);
                 Console.Write("-");
             }
-            if (y == gameField.SavannahField.GetLength(0) - 1)
+            if (columnNumber == gameField.SavannahField.GetLength(0) - 1)
             {
-                Console.SetCursorPosition(10 + (gameField.SavannahField.GetLength(0)), 5 + x);
+                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE + (gameField.SavannahField.GetLength(0)), OFFSET_FROM_TOP + rowNumber);
                 Console.Write("-");
             }
         }
 
-        private void DrawTopAndBottomBorder(ISavannahGameField gameField, int x)
+        private void DrawTopAndBottomBorder(ISavannahGameField gameField, int rowNumber)
         {
-            if (x == 0)
+            if (rowNumber == 0)
             {
-                Console.SetCursorPosition(9, 4);
+                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1, OFFSET_FROM_TOP - 1);
                 for (int a = 0; a < gameField.SavannahField.GetLength(0) + 2; a++)
                 {
                     Console.Write("-");
                 }
             }
-            if (x == gameField.SavannahField.GetLength(0) - 1)
+            if (rowNumber == gameField.SavannahField.GetLength(0) - 1)
             {
-                Console.SetCursorPosition(9, gameField.SavannahField.GetLength(0) + 5);
+                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1, gameField.SavannahField.GetLength(0) + OFFSET_FROM_TOP);
                 for (int a = 0; a < gameField.SavannahField.GetLength(0) + 2; a++)
                 {
                     Console.Write("-");
