@@ -26,8 +26,8 @@ namespace Presentation.Implementation
                 }
                 if (x == gameField.SavannahField.GetLength(0) - 1)
                 {
-                    Console.SetCursorPosition(10 , gameField.SavannahField.GetLength(0) + 5);
-                    for (int a = 0; a < gameField.SavannahField.GetLength(0) * 3 + 1; a++)
+                    Console.SetCursorPosition(9 , gameField.SavannahField.GetLength(0) + 5);
+                    for (int a = 0; a < gameField.SavannahField.GetLength(0) * 3 + 2; a++)
                     {
                         Console.Write("-");
                     }

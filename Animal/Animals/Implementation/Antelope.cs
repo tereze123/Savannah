@@ -27,7 +27,7 @@ namespace Entities.Animals.Implementation
 
         public void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField,ISavannahGameField gameField)
         {
-
+            throw new NotImplementedException();
         }
 
         public void PeaceStateMovement(ISavannahGameField gameField)
@@ -49,7 +49,6 @@ namespace Entities.Animals.Implementation
             int existingYPositionOnField = this.PositionOnField.YPosition;
             int randomMovement = rand.Next(1, 5);
             MovementWay movementWay = (MovementWay)randomMovement;
-
 
             switch (movementWay)
             {
@@ -77,23 +76,24 @@ namespace Entities.Animals.Implementation
             gameField.SavannahField[this.PositionOnField.XPosition, this.PositionOnField.YPosition] = this;
         }
 
+        //Set looparound the field
         private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
-    {
-        for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
         {
-            for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
+            for (int x = PositionOnField.XPosition - VisionRange; x < PositionOnField.XPosition + VisionRange; x++)
             {
-                if (gameField.SavannahField[x, y].Name == "L")
+                for (int y = PositionOnField.YPosition - VisionRange; y < PositionOnField.YPosition + VisionRange; y++)
                 {
+                    if (gameField.SavannahField[x, y].Name == "L")
+                    {
                         lionsPositionOnField.XPosition = x;
                         lionsPositionOnField.YPosition = y;
-                    return lionsPositionOnField;
+                        return lionsPositionOnField;
+                    }
                 }
             }
+        lionsPositionOnField.IsInViewRange = false;
+        return lionsPositionOnField;
         }
-            lionsPositionOnField.IsInViewRange = false;
-            return lionsPositionOnField;
-    }
 
         private void RunAwayFromLion(PositionOnField lionsPositionOnField)
         {
