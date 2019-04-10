@@ -13,17 +13,30 @@ namespace Presentation.Implementation
         }
         public void DrawGameField(ISavannahGameField gameField)
         {
+            Console.CursorVisible = false;
             for (int x = 0; x < gameField.SavannahField.GetLength(0); x++)
             {
+                if(x == 0)
+                {
+                    Console.SetCursorPosition(9, 4);
+                    for (int a = 0; a < gameField.SavannahField.GetLength(0) * 3 + 1; a++)
+                    {
+                        Console.Write("-");
+                    }
+                }                
                 for (int y = 0; y < gameField.SavannahField.GetLength(0); y++)
                 {
+                    if (y == 0)
+                    {
+                        Console.SetCursorPosition(9 + (y * 3), 4 + x);
+                        Console.Write("-");
+                    }
                     Console.SetCursorPosition(10 + (y * 3), 5 + x);
                     this.OutputAnimalNameOrBlank(gameField, x, y);
                 }
                 Console.WriteLine();
             }
         }
-
 
         public string ReturnKeyPressed()
         {
@@ -40,11 +53,11 @@ namespace Presentation.Implementation
         {
             if (gameField.SavannahField[x, y] == null)
             {
-                Console.Write("|__");
+                Console.Write("   ");
             }
             else
             {
-                Console.Write($"|" + gameField.SavannahField[x, y].Name + "_");
+                Console.Write($" " + gameField.SavannahField[x, y].Name + " ");
             }
         }
     }

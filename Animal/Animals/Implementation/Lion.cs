@@ -16,13 +16,14 @@ namespace Entities.Animals.Implementation
             this.VisionRange = 7;
         }
 
-        public void Move(ISavannahGameField gameField)
+        public void PeaceStateMovement(ISavannahGameField gameField)
         {
             //TO DO: Implement Lion Move - Chase Antilope
         }
 
-        public void SpecialAction()
+        public void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, ISavannahGameField gameField)
         {
+            
             //TO DO: Implement Lion SpecialAction - shoot lazors with one out of 10 possibility. Lazor range - 7 blocks. Damage - 3% of preys health
         }
 

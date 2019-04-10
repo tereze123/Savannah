@@ -10,8 +10,8 @@ namespace Entities.Animals
 
         int VisionRange { get; set; }
 
-        void Move(ISavannahGameField gameField);
+        void PeaceStateMovement(ISavannahGameField gameField);
 
-        void SpecialAction();
+        void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy,ISavannahGameField gameField);
     }
 }

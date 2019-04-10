@@ -1,4 +1,5 @@
 ﻿using System;
+using Entities.Animals.Enums;
 using Entities.GameField;
 
 namespace Entities.Animals.Implementation
@@ -11,41 +12,70 @@ namespace Entities.Animals.Implementation
 
         public PositionOnField PositionOnField { get; set; }
 
-        public PositionOnField LionsPositionOnField { get; set; }
+        private PositionOnField lionsPositionOnField;
+
+        private readonly Random rand;
 
         public Antelope()
         {
-            LionsPositionOnField = new PositionOnField();
+            this.lionsPositionOnField = new PositionOnField();
             this.Name = "A";
             this.VisionRange = 5;
             this.PositionOnField = new PositionOnField();
+            this.rand = new Random(); ;
         }
 
-        public void SpecialAction()
-    {
-        //TO DO: Antilopes Special Action is to run 5 blocks at a time at a  one out of 5 possibility
-    }
+        public void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField,ISavannahGameField gameField)
+        {
 
-        public void Move(ISavannahGameField gameField)
+        }
+
+        public void PeaceStateMovement(ISavannahGameField gameField)
         {
             lionsPositionOnField = this.GetLionsPositionOnField(gameField);
             if (lionsPositionOnField.IsInViewRange)
             {
-                this.RunAwayFromLion(lionsPositionOnField);
+                this.ActionWhenSeesEnenmy(lionsPositionOnField, gameField);
             }
             else
             {
-                this.ChillAroundAndEatGrass();
-            }            
+                this.ChillAround(gameField);
+            }
         }
 
-        private PositionOnField lionsPositionOnField;
-        
-        private void ChillAroundAndEatGrass()
+        private void ChillAround(ISavannahGameField gameField)
         {
-            throw new NotImplementedException();
+            int existingXPositionOnField = this.PositionOnField.XPosition;
+            int existingYPositionOnField = this.PositionOnField.YPosition;
+            int randomMovement = rand.Next(1, 5);
+            MovementWay movementWay = (MovementWay)randomMovement;
+
+
+            switch (movementWay)
+            {
+                case MovementWay.Up:
+                    this.PositionOnField.YPosition += 1;
+                    break;
+                case MovementWay.Down:
+                    this.PositionOnField.YPosition -= 1;
+                    break;
+                case MovementWay.Left:
+                    this.PositionOnField.XPosition -= 1;
+                    break;
+                case MovementWay.Right:
+                    this.PositionOnField.XPosition += 1;
+                    break;
+                default:
+                    throw new ArgumentException();
+            }
+            ChangePositionOnField(gameField, existingXPositionOnField, existingYPositionOnField);
         }
-        //TO DO: Antilope tries to avoid Lion
+
+        private void ChangePositionOnField(ISavannahGameField gameField, int lastXPositionOnField, int lastYPositionOnField)
+        {
+            gameField.SavannahField[lastXPositionOnField, lastYPositionOnField] = null;
+            gameField.SavannahField[this.PositionOnField.XPosition, this.PositionOnField.YPosition] = this;
+        }
 
         private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
     {
@@ -66,8 +96,7 @@ namespace Entities.Animals.Implementation
     }
 
         private void RunAwayFromLion(PositionOnField lionsPositionOnField)
-    {
-        //if this.PositionOnField.XPosition > xPositionOfLion dont move back
+        {
 
         if (this.PositionOnField.XPosition > lionsPositionOnField.XPosition)
         {
@@ -86,7 +115,6 @@ namespace Entities.Animals.Implementation
         {
             this.PositionOnField.YPosition -= 2;
         }
-        //if this.PositionOnField.XPosition < xPositionOfLion dont move forward
     }
     }
 }
