@@ -3,16 +3,23 @@
 namespace Entities.Animals
 {
     //japarveido uz abstraktu klasi lai var konstruktora pielimet jaunu positiononfield un name
-    public interface IAnimal
+    public abstract class IAnimal
     {
-        PositionOnField PositionOnField { get; set; }
+        public IAnimal()
+        {
+            AnimalsPositionOnField = new PositionOnField();
+            PositionOnFieldOfEnemy = new PositionOnField();
+        }
+        public PositionOnField AnimalsPositionOnField { get; set; }
 
-        string Name { get; set; }
+        public PositionOnField PositionOnFieldOfEnemy { get; set; }
 
-        int VisionRange { get; set; }
+        public string Name { get; set; }
 
-        void PeaceStateMovement(ISavannahGameField gameField);
+        public int VisionRange { get; set; }
 
-        void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy,ISavannahGameField gameField);
+        public abstract void  PeaceStateMovement(ISavannahGameField gameField);
+
+        public abstract void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy,ISavannahGameField gameField);
     }
 }
