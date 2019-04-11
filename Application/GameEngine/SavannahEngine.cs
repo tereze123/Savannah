@@ -1,8 +1,8 @@
 ﻿using Entities.Animals;
-using Entities.Animals.Implementation;
 using Entities.GameField;
 using Presentation.Interfaces;
 using Savannah.Application.GameEngine;
+using Savannah.Entities.Factories;
 using System;
 using System.Collections.Generic;
 
@@ -11,16 +11,16 @@ namespace Application.GameEngine
     public class SavannahEngine
     {
         public List<IAnimal> AnimalCollection { get; set; }
-        private readonly SavannahGameState gameField;
+        private readonly ISavannahGameStateFactory savannahGameStateFactory ;
         private readonly IInputOutput inputOutput;
         private readonly ISavannahGameLoop loopGame;
         private readonly Random random;
         private PositionOnField randomPosition;
 
-        public SavannahEngine(SavannahGameState gameField, IInputOutput inputOutput, SavannahGameLoop loopGame)
+        public SavannahEngine( IInputOutput inputOutput, ISavannahGameLoop loopGame, ISavannahGameStateFactory savannahGameStateFactory)
         {
             this.AnimalCollection = new List<IAnimal>();
-            this.gameField = gameField;
+            this.savannahGameStateFactory = savannahGameStateFactory;
             this.inputOutput = inputOutput;
             this.loopGame = loopGame;
             this.random = new Random();

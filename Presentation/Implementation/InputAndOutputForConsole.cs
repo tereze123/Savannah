@@ -1,8 +1,7 @@
 ﻿using Entities.GameField;
-using Microsoft.Extensions.Configuration;
 using Presentation.Interfaces;
+using Savannah.Common;
 using System;
-using System.IO;
 
 namespace Presentation.Implementation
 {
@@ -13,16 +12,13 @@ namespace Presentation.Implementation
         private readonly int OFFSET_FROM_LEFT_SIDE;
         private readonly int OFFSET_FROM_TOP;
 
-        public InputAndOutputForConsole()
-        {
-            this.consoleKeyInfo = new ConsoleKeyInfo();
-            var builder = new ConfigurationBuilder()
-                                .SetBasePath(Directory.GetCurrentDirectory())
-                                .AddJsonFile("appsettings.json");
+        private readonly IConfigurationFactory configurationFactory;
 
-            var configuration = builder.Build();
-            this.OFFSET_FROM_LEFT_SIDE = int.Parse(configuration["OffsetFromLeftSide"]);
-            this.OFFSET_FROM_TOP = int.Parse(configuration["OffsetFromTop"]);
+        public InputAndOutputForConsole(IConfigurationFactory configurationFactory)
+        {
+            this.configurationFactory = configurationFactory;
+            OFFSET_FROM_LEFT_SIDE = configurationFactory.GetOffsetFromLeftSideFromConfigurationFile();
+            OFFSET_FROM_TOP = configurationFactory.GetOffsetFromTopFromConfigurationFile();
         }
 
         public void DrawGameField(SavannahGameState gameField)
