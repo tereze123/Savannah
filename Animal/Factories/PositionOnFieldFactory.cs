@@ -4,7 +4,7 @@ using System;
 
 namespace Savannah.Entities.Factories
 {
-    public class PositionOnFieldFactory
+    public class PositionOnFieldFactory : IPositionOnFieldFactory
     {
         private readonly Random _randomiser;
 

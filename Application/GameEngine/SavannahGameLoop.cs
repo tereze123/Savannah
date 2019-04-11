@@ -8,15 +8,15 @@ using Savannah.Entities.SavannahGame.Implementation;
 
 namespace Savannah.Application.GameEngine
 {
-    public class SavannahGameLoop
+    public class SavannahGameLoop : ISavannahGameLoop
     {
         private readonly IInputOutput inputOutput;
-        private readonly SavannahGameLogic savannahGameGameLogic;
+        private readonly ISavannahGameLogic savannahGameGameLogic;
         private SavannahGameState savannahGameState;
 
         public SavannahGameLoop(IInputOutput inputOutput, 
-            SavannahGameState savannahGameState, 
-            SavannahGameLogic savannahGameGameLogic
+            SavannahGameState savannahGameState,
+            ISavannahGameLogic savannahGameGameLogic
             )
         {
             this.inputOutput = inputOutput;
@@ -44,10 +44,10 @@ namespace Savannah.Application.GameEngine
         {
             foreach (var animal in AnimalCollection)
             {
-                var position = animal.GetEnemysPositionOnField(InitialArray);
-                if (position.IsInViewRange == true)
+                var enemyPosition = animal.GetEnemysPositionOnField(InitialArray);
+                if (enemyPosition.IsInViewRange == true)
                 {
-                   var newPosition = animal.ActionWhenSeesEnenmy(ref NextGenerationArray, position);
+                   var newPosition = animal.ActionWhenSeesEnenmy(ref NextGenerationArray, enemyPosition);
                     NextGenerationArray[newPosition.RowPosition, newPosition.ColumnPosition] = animal;
                 }
                 else

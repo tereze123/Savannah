@@ -13,7 +13,7 @@ namespace Application.GameEngine
         public List<IAnimal> AnimalCollection { get; set; }
         private readonly SavannahGameState gameField;
         private readonly IInputOutput inputOutput;
-        private readonly SavannahGameLoop loopGame;
+        private readonly ISavannahGameLoop loopGame;
         private readonly Random random;
         private PositionOnField randomPosition;
 
@@ -35,7 +35,5 @@ namespace Application.GameEngine
                 loopGame.LoopTheGame();
             }
         }
-
- 
     }
 }

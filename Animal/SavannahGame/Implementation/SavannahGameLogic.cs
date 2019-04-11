@@ -5,11 +5,11 @@ using Savannah.Entities.Factories;
 
 namespace Savannah.Entities.SavannahGame.Implementation
 {
-    public class SavannahGameLogic
+    public class SavannahGameLogic : ISavannahGameLogic
     {
         private PositionOnField _randomPosition;
         private readonly IConfigurationFactory _configurationFactory;
-        private readonly PositionOnFieldFactory _positionOnFieldFactory;
+        private readonly IPositionOnFieldFactory _positionOnFieldFactory;
         private readonly int _gameFieldSize;
 
         public SavannahGameLogic(PositionOnFieldFactory positionOnFieldFactory, IConfigurationFactory configurationFactory)
