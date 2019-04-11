@@ -12,7 +12,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
         private readonly PositionOnFieldFactory _positionOnFieldFactory;
         private readonly int _gameFieldSize;
 
-        public SavannahGameGameLogic(PositionOnFieldFactory positionOnFieldFactory)
+        public SavannahGameGameLogic(PositionOnFieldFactory positionOnFieldFactory, IConfigurationFactory configurationFactory)
         {
             _configurationFactory = configurationFactory;
             _gameFieldSize = _configurationFactory.GetFieldSizeFromConfigurationFile();
@@ -24,7 +24,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
         public void PlaceAnimalOnRandomAndFreePosition(SavannahGameState gameField, IAnimal animal)
         {
             PositionOnField positionOnField = GetRandomAndFreePositionOnField(gameField);
-            gameField.SavannahField[positionOnField.RowPosition, positionOnField.ColumnPosition] = animal;
+            gameField.GameField[positionOnField.RowPosition, positionOnField.ColumnPosition] = animal;
             gameField.CountOfAnimalsOnField++;
             SetAnimalPositionProperties(animal, positionOnField);
         }
@@ -52,7 +52,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
 
         private bool IsThisFieldCellFree(PositionOnField positionOnField, SavannahGameState gameField)
         {
-            if (gameField.SavannahField[positionOnField.RowPosition, positionOnField.ColumnPosition] != null)
+            if (gameField.GameField[positionOnField.RowPosition, positionOnField.ColumnPosition] != null)
             {
                 return false;
             }
@@ -82,15 +82,5 @@ namespace Savannah.Entities.SavannahGame.Implementation
         }
         #endregion
 
-        #region SavannahGameGameLogic MoveAnimals
-
-        public void MoveEachAnimalInTheField(SavannahGameState gameField)
-        {
-            foreach (IAnimal animal in gameField.SavannahField)
-            {
-                animal.PeaceStateMovement(gameField);
-            }
-        }
-        #endregion
     }
 }

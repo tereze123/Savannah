@@ -2,24 +2,25 @@
 
 namespace Entities.Animals
 {
-    //japarveido uz abstraktu klasi lai var konstruktora pielimet jaunu positiononfield un name
+
     public abstract class IAnimal
     {
-        public IAnimal()
-        {
-            AnimalsPositionOnField = new PositionOnField();
-            PositionOnFieldOfEnemy = new PositionOnField();
-        }
-        public PositionOnField AnimalsPositionOnField { get; set; }
-
-        public PositionOnField PositionOnFieldOfEnemy { get; set; }
 
         public string Name { get; set; }
 
         public int VisionRange { get; set; }
 
-        public abstract void  PeaceStateMovement(SavannahGameState gameField);
+        public IAnimal()
+        {
+            AnimalsPositionOnField = new PositionOnField();
+        }
 
-        public abstract void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy,SavannahGameState gameField);
+        public PositionOnField AnimalsPositionOnField { get; set; }
+
+        public abstract PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray);
+
+        public abstract PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] initialGameArray, ref IAnimal[,] nextGenerationArray);
+
+        public abstract PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] initialGameArray, PositionOnField positionOfEnemy);
     }
 }

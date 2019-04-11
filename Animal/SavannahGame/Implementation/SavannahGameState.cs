@@ -11,13 +11,14 @@ namespace Entities.GameField
         {
             _configurationFactory = configurationFactory;
             GameFieldSize = _configurationFactory.GetFieldSizeFromConfigurationFile();
-            SavannahField = new IAnimal[GameFieldSize, GameFieldSize];
+            GameField = new IAnimal[GameFieldSize, GameFieldSize];
         }
 
         public int GameFieldSize { get;}
 
         public int CountOfAnimalsOnField { get; set; }
 
-        public IAnimal[,] SavannahField { get; set; }
+        public IAnimal[,] GameField { get; set; }
+
     }
 }

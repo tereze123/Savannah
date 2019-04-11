@@ -1,12 +1,31 @@
-﻿namespace Savannah.Application.GameEngine
+﻿using System;
+using Entities.Animals;
+using Entities.Animals.Implementation;
+using Entities.GameField;
+using Presentation.Interfaces;
+
+namespace Savannah.Application.GameEngine
 {
     public class SavannahGameLoop
     {
-        private void LoopTheGame()
+        private readonly IInputOutput inputOutput;
+        private readonly SavannahGameState savannahGameState;
+
+        public SavannahGameLoop(IInputOutput inputOutput, SavannahGameState savannahGameState)
+        {
+            this.inputOutput = inputOutput;
+            this.savannahGameState = savannahGameState;
+        }
+        public void LoopTheGame(IInputOutput inputOutput, SavannahGameState savannahGameState)
         {
             this.UsersTurnToAddAnimals();
             this.PlayGame();
-            inputOutput.DrawGameField(gameField);
+            inputOutput.DrawGameField(savannahGameState);
+        }
+
+        private void PlayGame()
+        {
+            throw new NotImplementedException();
         }
 
         private void UsersTurnToAddAnimals()
@@ -19,13 +38,13 @@
                 {
                     IAnimal antilope = new Antelope();
                     this.AnimalCollection.Add(antilope);
-                    this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, antilope);
+                    this.PlaceAnimalOnRandomAndFreePosition(gameField, antilope);
                 }
                 else if (keyPressedByUser == "L")
                 {
                     IAnimal lion = new Lion();
                     this.AnimalCollection.Add(lion);
-                    this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, lion);
+                    this.PlaceAnimalOnRandomAndFreePosition(gameField, lion);
                 }
             } while (keyPressedByUser != "ESC");
         }

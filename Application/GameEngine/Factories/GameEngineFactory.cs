@@ -14,7 +14,7 @@ namespace Application.GameEngine.Factories
 
             var gameField = serviceProvider.GetRequiredService<SavannahGameState>();
             var inputAndOuput = serviceProvider.GetRequiredService<IInputOutput>();
-            return new SavannahEngine(gameField, inputAndOuput);
+            return new SavannahEngine(gameField, inputAndOuput, new Savannah.Application.GameEngine.SavannahGameLoop());
         }
     }
 }

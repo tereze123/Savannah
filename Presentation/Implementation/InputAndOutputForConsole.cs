@@ -29,11 +29,11 @@ namespace Presentation.Implementation
         {
             Console.CursorVisible = false;
 
-            for (int rowNumber = 0; rowNumber < gameField.SavannahField.GetLength(0); rowNumber++)
+            for (int rowNumber = 0; rowNumber < gameField.GameField.GetLength(0); rowNumber++)
             {
                 this.DrawTopAndBottomBorder(gameField, rowNumber);
 
-                for (int columnNumber = 0; columnNumber < gameField.SavannahField.GetLength(0); columnNumber++)
+                for (int columnNumber = 0; columnNumber < gameField.GameField.GetLength(0); columnNumber++)
                 {
                     this.DrawSideBorders(gameField, rowNumber, columnNumber);
                     Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE + columnNumber, OFFSET_FROM_TOP + rowNumber);
@@ -56,13 +56,13 @@ namespace Presentation.Implementation
 
         private void OutputAnimalNameOrBlank(SavannahGameState gameField, int rowNumber, int columnNumber)
         {
-            if (gameField.SavannahField[rowNumber, columnNumber] == null)
+            if (gameField.GameField[rowNumber, columnNumber] == null)
             {
                 Console.Write(" ");
             }
             else
             {
-                Console.Write(gameField.SavannahField[rowNumber, columnNumber].Name);
+                Console.Write(gameField.GameField[rowNumber, columnNumber].Name);
             }
         }
 
@@ -73,9 +73,9 @@ namespace Presentation.Implementation
                 Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1 + columnNumber, OFFSET_FROM_TOP + rowNumber);
                 Console.Write("-");
             }
-            if (columnNumber == gameField.SavannahField.GetLength(0) - 1)
+            if (columnNumber == gameField.GameField.GetLength(0) - 1)
             {
-                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE + (gameField.SavannahField.GetLength(0)), OFFSET_FROM_TOP + rowNumber);
+                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE + (gameField.GameField.GetLength(0)), OFFSET_FROM_TOP + rowNumber);
                 Console.Write("-");
             }
         }
@@ -85,15 +85,15 @@ namespace Presentation.Implementation
             if (rowNumber == 0)
             {
                 Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1, OFFSET_FROM_TOP - 1);
-                for (int a = 0; a < gameField.SavannahField.GetLength(0) + 2; a++)
+                for (int a = 0; a < gameField.GameField.GetLength(0) + 2; a++)
                 {
                     Console.Write("-");
                 }
             }
-            if (rowNumber == gameField.SavannahField.GetLength(0) - 1)
+            if (rowNumber == gameField.GameField.GetLength(0) - 1)
             {
-                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1, gameField.SavannahField.GetLength(0) + OFFSET_FROM_TOP);
-                for (int a = 0; a < gameField.SavannahField.GetLength(0) + 2; a++)
+                Console.SetCursorPosition(OFFSET_FROM_LEFT_SIDE - 1, gameField.GameField.GetLength(0) + OFFSET_FROM_TOP);
+                for (int a = 0; a < gameField.GameField.GetLength(0) + 2; a++)
                 {
                     Console.Write("-");
                 }

@@ -4,22 +4,23 @@ namespace Entities.Animals.Implementation
 {
     public class Lion : IAnimal
     {
-
-        public PositionOnField PositionOnField { get; set; }
-
         public Lion()
         {
             this.Name = "L";
             this.VisionRange = 7;
-            this.PositionOnField = new PositionOnField();
         }
 
-        public override void PeaceStateMovement(SavannahGameState gameField)
+        public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] initialGameArray, PositionOnField positionOfEnemy)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy, SavannahGameState gameField)
+        public override PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray)
+        {
+            throw new System.NotImplementedException();
+        }
+
+        public override PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] initialGameArray, ref IAnimal[,] nextGenerationArray)
         {
             throw new System.NotImplementedException();
         }
