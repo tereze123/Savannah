@@ -25,7 +25,7 @@ namespace Presentation.Implementation
             this.OFFSET_FROM_TOP = int.Parse(configuration["OffsetFromTop"]);
         }
 
-        public void DrawGameField(ISavannahGameField gameField)
+        public void DrawGameField(ISavannahGame gameField)
         {
             Console.CursorVisible = false;
 
@@ -54,7 +54,7 @@ namespace Presentation.Implementation
             return "ESC";
         }
 
-        private void OutputAnimalNameOrBlank(ISavannahGameField gameField, int rowNumber, int columnNumber)
+        private void OutputAnimalNameOrBlank(ISavannahGame gameField, int rowNumber, int columnNumber)
         {
             if (gameField.SavannahField[rowNumber, columnNumber] == null)
             {
@@ -66,7 +66,7 @@ namespace Presentation.Implementation
             }
         }
 
-        private void DrawSideBorders(ISavannahGameField gameField, int rowNumber, int columnNumber)
+        private void DrawSideBorders(ISavannahGame gameField, int rowNumber, int columnNumber)
         {
             if (columnNumber == 0)
             {
@@ -80,7 +80,7 @@ namespace Presentation.Implementation
             }
         }
 
-        private void DrawTopAndBottomBorder(ISavannahGameField gameField, int rowNumber)
+        private void DrawTopAndBottomBorder(ISavannahGame gameField, int rowNumber)
         {
             if (rowNumber == 0)
             {

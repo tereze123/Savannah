@@ -18,8 +18,8 @@ namespace Entities.Animals
 
         public int VisionRange { get; set; }
 
-        public abstract void  PeaceStateMovement(ISavannahGameField gameField);
+        public abstract void  PeaceStateMovement(ISavannahGame gameField);
 
-        public abstract void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy,ISavannahGameField gameField);
+        public abstract void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy,ISavannahGame gameField);
     }
 }

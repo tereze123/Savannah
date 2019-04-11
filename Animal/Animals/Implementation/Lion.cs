@@ -14,12 +14,12 @@ namespace Entities.Animals.Implementation
             this.PositionOnField = new PositionOnField();
         }
 
-        public override void PeaceStateMovement(ISavannahGameField gameField)
+        public override void PeaceStateMovement(ISavannahGame gameField)
         {
             throw new System.NotImplementedException();
         }
 
-        public override void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy, ISavannahGameField gameField)
+        public override void ActionWhenSeesEnenmy(PositionOnField PositionOnFieldOfTheEnemy, ISavannahGame gameField)
         {
             throw new System.NotImplementedException();
         }

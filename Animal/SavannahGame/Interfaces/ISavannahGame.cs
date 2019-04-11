@@ -2,8 +2,9 @@
 
 namespace Entities.GameField
 {
-    public interface ISavannahGameField
+    public interface ISavannahGame
     {
+        int CountOfAnimalsOnField { get; set; }
         IAnimal[,] SavannahField { get; set; }
     }
 }

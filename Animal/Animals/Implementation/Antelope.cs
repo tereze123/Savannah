@@ -15,7 +15,7 @@ namespace Entities.Animals.Implementation
             this.rand = new Random(); ;
         }
 
-        public override void PeaceStateMovement(ISavannahGameField gameField)
+        public override void PeaceStateMovement(ISavannahGame gameField)
         {
             PositionOnFieldOfEnemy = this.GetLionsPositionOnField(gameField);
             if (PositionOnFieldOfEnemy.IsInViewRange)
@@ -28,7 +28,7 @@ namespace Entities.Animals.Implementation
             }
         }
 
-        private void ChillAround(ISavannahGameField gameField)
+        private void ChillAround(ISavannahGame gameField)
         {
             int gameSize = gameField.SavannahField.GetLength(0);
             int existingRowPositionOnField = this.AnimalsPositionOnField.RowPosition;
@@ -63,14 +63,14 @@ namespace Entities.Animals.Implementation
             }
         }
 
-        private void ChangePositionOnField(ISavannahGameField gameField, int lastRowPositionOnField, int lastColumnPositionOnField)
+        private void ChangePositionOnField(ISavannahGame gameField, int lastRowPositionOnField, int lastColumnPositionOnField)
         {
             gameField.SavannahField[lastRowPositionOnField, lastColumnPositionOnField] = null;
             gameField.SavannahField[this.AnimalsPositionOnField.RowPosition, this.AnimalsPositionOnField.ColumnPosition] = this;
         }
 
         //Set looparound the field
-        private PositionOnField GetLionsPositionOnField(ISavannahGameField gameField)
+        private PositionOnField GetLionsPositionOnField(ISavannahGame gameField)
         {
             int antilopesRowPosition = this.AnimalsPositionOnField.RowPosition;
             int antilopesColumnPosition = this.AnimalsPositionOnField.ColumnPosition;
@@ -97,7 +97,7 @@ namespace Entities.Animals.Implementation
             return PositionOnFieldOfEnemy;
         }
 
-        public override void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, ISavannahGameField gameField)
+        public override void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, ISavannahGame gameField)
         {
             int existingRowPositionOnField = this.AnimalsPositionOnField.RowPosition;
             int existingColumnPositionOnField = this.AnimalsPositionOnField.ColumnPosition;

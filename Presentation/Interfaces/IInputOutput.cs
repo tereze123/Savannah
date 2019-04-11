@@ -4,7 +4,7 @@ namespace Presentation.Interfaces
 {
     public interface IInputOutput
     {
-        void DrawGameField(ISavannahGameField gameField);
+        void DrawGameField(ISavannahGame gameField);
         string ReturnKeyPressed();
     }
 }

@@ -10,12 +10,12 @@ namespace Application.GameEngine
     public class SavannahEngine
     {
         public List<IAnimal> AnimalCollection { get; set; }
-        private readonly ISavannahGameField gameField;
+        private readonly ISavannahGame gameField;
         private readonly IInputOutput inputOutput;
         private readonly Random random;
         private PositionOnField randomPosition;
 
-        public SavannahEngine(ISavannahGameField gameField, IInputOutput inputOutput)
+        public SavannahEngine(ISavannahGame gameField, IInputOutput inputOutput)
         {
             this.AnimalCollection = new List<IAnimal>();
             this.gameField = gameField;
@@ -33,12 +33,7 @@ namespace Application.GameEngine
             }
         }
 
-        private void LoopTheGame()
-        {
-            this.UsersTurnToAddAnimals();
-            this.PlayGame();
-            inputOutput.DrawGameField(gameField);
-        }
+
 
         private void PlayGame()
         {
@@ -49,45 +44,10 @@ namespace Application.GameEngine
         }
 
         //TO be reconstructed
-        private void UsersTurnToAddAnimals()
-        {
-            string keyPressedByUser;
-            do
-            {
-                keyPressedByUser = inputOutput.ReturnKeyPressed();
-                if (keyPressedByUser == "A")
-                {
-                    IAnimal antilope = new Antelope();
-                    this.AnimalCollection.Add(antilope);
-                    this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, antilope);
-                }
-                else if (keyPressedByUser == "L")
-                {
-                    IAnimal lion = new Lion();
-                    this.AnimalCollection.Add(lion);
-                    this.PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(gameField, lion);
-                }
-            } while (keyPressedByUser != "ESC");
-        }
 
-        private PositionOnField GetRandomPositionOnField(ISavannahGameField gameField)
-        {
-            int gameFieldSize = gameField.SavannahField.GetLength(0);
-            randomPosition.RowPosition = random.Next(0, gameFieldSize);
-            randomPosition.ColumnPosition = random.Next(0, gameFieldSize);
-            return randomPosition;
-        }
 
-        private void PlaceNewAnimalAtRandomFreeSpaceWhenKeyPressed(ISavannahGameField gameField, IAnimal animal)
-        {
-            do
-            {
-                randomPosition = GetRandomPositionOnField(gameField);
-            } while (gameField.SavannahField[randomPosition.RowPosition, randomPosition.ColumnPosition] != null);
-            gameField.SavannahField[randomPosition.RowPosition, randomPosition.ColumnPosition] = animal;
-            animal.AnimalsPositionOnField.RowPosition = randomPosition.RowPosition;
-            animal.AnimalsPositionOnField.ColumnPosition = randomPosition.ColumnPosition;
-            inputOutput.DrawGameField(gameField);
-        }
+
+
+
     }
 }
