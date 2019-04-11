@@ -5,14 +5,14 @@ using Savannah.Entities.Factories;
 
 namespace Savannah.Entities.SavannahGame.Implementation
 {
-    public class SavannahGameGameLogic
+    public class SavannahGameLogic
     {
         private PositionOnField _randomPosition;
         private readonly IConfigurationFactory _configurationFactory;
         private readonly PositionOnFieldFactory _positionOnFieldFactory;
         private readonly int _gameFieldSize;
 
-        public SavannahGameGameLogic(PositionOnFieldFactory positionOnFieldFactory, IConfigurationFactory configurationFactory)
+        public SavannahGameLogic(PositionOnFieldFactory positionOnFieldFactory, IConfigurationFactory configurationFactory)
         {
             _configurationFactory = configurationFactory;
             _gameFieldSize = _configurationFactory.GetFieldSizeFromConfigurationFile();
@@ -34,7 +34,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
             do
             {
                 _randomPosition = _positionOnFieldFactory.GetRandomPositionOnField(_gameFieldSize);
-            }while(CanAnimalMoveToThisLocation(_randomPosition, gameField));
+            }while((CanAnimalMoveToThisLocation(_randomPosition, gameField)));
             return _randomPosition;
         }
 
@@ -71,11 +71,11 @@ namespace Savannah.Entities.SavannahGame.Implementation
             }
             else
             {
-                return false;
+                return true;
             }
         }
 
-        private static void SetAnimalPositionProperties(IAnimal animal, PositionOnField positionOnField)
+        private void SetAnimalPositionProperties(IAnimal animal, PositionOnField positionOnField)
         {
             animal.AnimalsPositionOnField.RowPosition = positionOnField.RowPosition;
             animal.AnimalsPositionOnField.ColumnPosition = positionOnField.ColumnPosition;

@@ -2,6 +2,8 @@
 using Entities.GameField;
 using Microsoft.Extensions.DependencyInjection;
 using Presentation.Interfaces;
+using Savannah.Application.GameEngine;
+using Savannah.Common;
 
 namespace Application.GameEngine.Factories
 {
@@ -12,9 +14,12 @@ namespace Application.GameEngine.Factories
             DependencyInjectionContainer dependencyInjectionContainer = new DependencyInjectionContainer();
             ServiceProvider serviceProvider = dependencyInjectionContainer.GetServiceProvider();
 
-            var gameField = serviceProvider.GetRequiredService<SavannahGameState>();
             var inputAndOuput = serviceProvider.GetRequiredService<IInputOutput>();
-            return new SavannahEngine(gameField, inputAndOuput, new Savannah.Application.GameEngine.SavannahGameLoop());
+            var configfactory = new SavannahConfiguration();
+            var gameState = new SavannahGameState(configfactory);
+            
+            var loopGame = new SavannahGameLoop(inputAndOuput, gameState, new Savannah.Entities.SavannahGame.Implementation.SavannahGameLogic(new Savannah.Entities.Factories.PositionOnFieldFactory(), configfactory));
+            return new SavannahEngine(gameState, inputAndOuput, loopGame);
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Savannah.Common.Factories
 {
-    public class RandomiserFactory 
+    public class RandomiserFactory: IRandomiserFactory
     {
         public Random GetNewRandomiser()
         {

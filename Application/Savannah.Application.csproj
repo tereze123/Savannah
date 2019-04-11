@@ -13,6 +13,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Animal\Savannah.Entities.csproj" />
     <ProjectReference Include="..\Presentation\Savannah.Presentation.csproj" />
+    <ProjectReference Include="..\Savannah.Common\Savannah.Common.csproj" />
   </ItemGroup>
 
 </Project>
