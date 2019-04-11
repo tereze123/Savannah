@@ -12,7 +12,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
         private readonly PositionOnFieldFactory _positionOnFieldFactory;
         private readonly int _gameFieldSize;
 
-        public SavannahGameGameLogic(IConfigurationFactory configurationFactory, PositionOnFieldFactory positionOnFieldFactory)
+        public SavannahGameGameLogic(PositionOnFieldFactory positionOnFieldFactory)
         {
             _configurationFactory = configurationFactory;
             _gameFieldSize = _configurationFactory.GetFieldSizeFromConfigurationFile();
@@ -20,7 +20,8 @@ namespace Savannah.Entities.SavannahGame.Implementation
             _positionOnFieldFactory = positionOnFieldFactory;
         }
 
-        public void PlaceAnimalOnRandomAndFreePosition(ISavannahGame gameField, IAnimal animal)
+        #region SavannahGameGameLogic AddNewAnimalToField  
+        public void PlaceAnimalOnRandomAndFreePosition(SavannahGameState gameField, IAnimal animal)
         {
             PositionOnField positionOnField = GetRandomAndFreePositionOnField(gameField);
             gameField.SavannahField[positionOnField.RowPosition, positionOnField.ColumnPosition] = animal;
@@ -28,7 +29,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
             SetAnimalPositionProperties(animal, positionOnField);
         }
 
-        private PositionOnField GetRandomAndFreePositionOnField(ISavannahGame gameField)
+        private PositionOnField GetRandomAndFreePositionOnField(SavannahGameState gameField)
         {
             do
             {
@@ -37,7 +38,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
             return _randomPosition;
         }
 
-        private bool CanAnimalMoveToThisLocation(PositionOnField positionOnField, ISavannahGame gameField)
+        private bool CanAnimalMoveToThisLocation(PositionOnField positionOnField, SavannahGameState gameField)
         {
             if (IsThisFieldCellFree(positionOnField, gameField) && AreThereAnyFreeSpacesOnFieldLeft(gameField))
             {
@@ -49,7 +50,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
             }
         }
 
-        private bool IsThisFieldCellFree(PositionOnField positionOnField, ISavannahGame gameField)
+        private bool IsThisFieldCellFree(PositionOnField positionOnField, SavannahGameState gameField)
         {
             if (gameField.SavannahField[positionOnField.RowPosition, positionOnField.ColumnPosition] != null)
             {
@@ -62,7 +63,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
             }
         }
 
-        private bool AreThereAnyFreeSpacesOnFieldLeft(ISavannahGame gameField)
+        private bool AreThereAnyFreeSpacesOnFieldLeft(SavannahGameState gameField)
         {
             if (gameField.CountOfAnimalsOnField == _gameFieldSize)
             {
@@ -79,5 +80,17 @@ namespace Savannah.Entities.SavannahGame.Implementation
             animal.AnimalsPositionOnField.RowPosition = positionOnField.RowPosition;
             animal.AnimalsPositionOnField.ColumnPosition = positionOnField.ColumnPosition;
         }
+        #endregion
+
+        #region SavannahGameGameLogic MoveAnimals
+
+        public void MoveEachAnimalInTheField(SavannahGameState gameField)
+        {
+            foreach (IAnimal animal in gameField.SavannahField)
+            {
+                animal.PeaceStateMovement(gameField);
+            }
+        }
+        #endregion
     }
 }

@@ -1,76 +1,79 @@
 ﻿using System;
 using Entities.Animals.Enums;
 using Entities.GameField;
+using Savannah.Entities.Factories;
 
 namespace Entities.Animals.Implementation
 {
     public class Antelope : IAnimal
     {
         private readonly Random rand;
+        private readonly PositionOnFieldFactory _positionOnFieldFactory;
 
-        public Antelope():base()
+        public Antelope() :base()
         {
             this.Name = "A";
             this.VisionRange = 2;
             this.rand = new Random(); ;
+            _positionOnFieldFactory = new PositionOnFieldFactory();
         }
 
-        public override void PeaceStateMovement(ISavannahGame gameField)
+        public override void PeaceStateMovement(SavannahGameState gameField)
         {
             PositionOnFieldOfEnemy = this.GetLionsPositionOnField(gameField);
+
             if (PositionOnFieldOfEnemy.IsInViewRange)
             {
                 this.ActionWhenSeesEnenmy(PositionOnFieldOfEnemy, gameField);
             }
             else
             {
-                this.ChillAround(gameField);
+                GetNextPossibleMoveOfAnimal(gameField);
+
             }
         }
 
-        private void ChillAround(ISavannahGame gameField)
+        private PositionOnField GetNextPossibleMoveOfAnimal(SavannahGameState gameField)
         {
-            int gameSize = gameField.SavannahField.GetLength(0);
-            int existingRowPositionOnField = this.AnimalsPositionOnField.RowPosition;
-            int existingColumnPositionOnField = this.AnimalsPositionOnField.ColumnPosition;
-            int randomMovement = rand.Next(1, 5);
-            MovementWay movementWay = (MovementWay)randomMovement;
+            PositionOnField nextGenerationPosition = _positionOnFieldFactory.GetNewPositionOnFieldWithKnownCoordinates(AnimalsPositionOnField);
 
-            int tempChangedRowPosition = this.AnimalsPositionOnField.RowPosition;
-            int tempChangedColumnPosition = this.AnimalsPositionOnField.ColumnPosition;
+            MovementWay movementWay = GetRandomDirection();
+
             switch (movementWay)
             {
                 case MovementWay.Up:
-                    tempChangedColumnPosition = (this.AnimalsPositionOnField.ColumnPosition + 1 +  gameSize) % gameSize;
+                    nextGenerationPosition.RowPosition -=  1;
                     break;
                 case MovementWay.Down:
-                    tempChangedColumnPosition = (this.AnimalsPositionOnField.ColumnPosition - 1 + gameSize) % gameSize;
+                    nextGenerationPosition.RowPosition += 1;
                     break;
                 case MovementWay.Left:
-                    tempChangedRowPosition = (this.AnimalsPositionOnField.RowPosition - 1 + gameSize) % gameSize;
+                    nextGenerationPosition.ColumnPosition -=  1;
                     break;
                 case MovementWay.Right:
-                    tempChangedRowPosition = (this.AnimalsPositionOnField.RowPosition + 1 + gameSize) % gameSize;
+                    nextGenerationPosition.ColumnPosition += 1;
                     break;
                 default:
                     throw new ArgumentException();
             }
-            if (gameField.SavannahField[tempChangedRowPosition, tempChangedColumnPosition] == null)
-            {
-                this.AnimalsPositionOnField.RowPosition = tempChangedRowPosition;
-                this.AnimalsPositionOnField.ColumnPosition = tempChangedColumnPosition;
-                this.ChangePositionOnField(gameField, existingRowPositionOnField, existingColumnPositionOnField);
-            }
+            return nextGenerationPosition;
         }
 
-        private void ChangePositionOnField(ISavannahGame gameField, int lastRowPositionOnField, int lastColumnPositionOnField)
+        private MovementWay GetRandomDirection()
+        {
+            int randomMovement = rand.Next(1, 5);
+            MovementWay movementWay = (MovementWay)randomMovement;
+            return movementWay;
+        }
+
+        private void ChangePositionOnField(SavannahGameState gameField, int lastRowPositionOnField, int lastColumnPositionOnField)
         {
             gameField.SavannahField[lastRowPositionOnField, lastColumnPositionOnField] = null;
-            gameField.SavannahField[this.AnimalsPositionOnField.RowPosition, this.AnimalsPositionOnField.ColumnPosition] = this;
+            gameField.SavannahField[this.AnimalsPositionOnField.ColumnPosition, this.AnimalsPositionOnField.RowPosition] = this;
         }
 
         //Set looparound the field
-        private PositionOnField GetLionsPositionOnField(ISavannahGame gameField)
+        private PositionOnField GetLionsPositionOnField(SavannahGameState gameField)
         {
             int antilopesRowPosition = this.AnimalsPositionOnField.RowPosition;
             int antilopesColumnPosition = this.AnimalsPositionOnField.ColumnPosition;
@@ -97,7 +100,7 @@ namespace Entities.Animals.Implementation
             return PositionOnFieldOfEnemy;
         }
 
-        public override void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, ISavannahGame gameField)
+        public override void ActionWhenSeesEnenmy(PositionOnField lionsPositionOnField, SavannahGameState gameField)
         {
             int existingRowPositionOnField = this.AnimalsPositionOnField.RowPosition;
             int existingColumnPositionOnField = this.AnimalsPositionOnField.ColumnPosition;

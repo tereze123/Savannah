@@ -12,7 +12,7 @@ namespace Application.GameEngine.Factories
             DependencyInjectionContainer dependencyInjectionContainer = new DependencyInjectionContainer();
             ServiceProvider serviceProvider = dependencyInjectionContainer.GetServiceProvider();
 
-            var gameField = serviceProvider.GetRequiredService<ISavannahGame>();
+            var gameField = serviceProvider.GetRequiredService<SavannahGameState>();
             var inputAndOuput = serviceProvider.GetRequiredService<IInputOutput>();
             return new SavannahEngine(gameField, inputAndOuput);
         }

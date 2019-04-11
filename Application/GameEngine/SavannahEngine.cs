@@ -10,12 +10,12 @@ namespace Application.GameEngine
     public class SavannahEngine
     {
         public List<IAnimal> AnimalCollection { get; set; }
-        private readonly ISavannahGame gameField;
+        private readonly SavannahGameState gameField;
         private readonly IInputOutput inputOutput;
         private readonly Random random;
         private PositionOnField randomPosition;
 
-        public SavannahEngine(ISavannahGame gameField, IInputOutput inputOutput)
+        public SavannahEngine(SavannahGameState gameField, IInputOutput inputOutput)
         {
             this.AnimalCollection = new List<IAnimal>();
             this.gameField = gameField;
@@ -33,21 +33,6 @@ namespace Application.GameEngine
             }
         }
 
-
-
-        private void PlayGame()
-        {
-            foreach (IAnimal animal in this.AnimalCollection)
-            {
-                animal.PeaceStateMovement(gameField);
-            }
-        }
-
-        //TO be reconstructed
-
-
-
-
-
+ 
     }
 }

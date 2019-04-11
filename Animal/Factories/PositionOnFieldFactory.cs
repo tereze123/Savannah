@@ -26,5 +26,13 @@ namespace Savannah.Entities.Factories
             randomPosition.ColumnPosition = _randomiser.Next(0, gameFieldSize);
             return randomPosition;
         }
+
+        public PositionOnField GetNewPositionOnFieldWithKnownCoordinates(PositionOnField knownPositionOnField)
+        {
+            PositionOnField positionOnField = new PositionOnField();
+            positionOnField.RowPosition = knownPositionOnField.RowPosition;
+            positionOnField.ColumnPosition = knownPositionOnField.ColumnPosition;
+            return positionOnField;
+        }
     }
 }

@@ -11,7 +11,7 @@ namespace Application.AppStart.Dependencies
         {
             var serviceProvider = new ServiceCollection()
                     .AddTransient<IInputOutput, InputAndOutputForConsole>()
-                    .AddTransient<ISavannahGame, SavannahGame>()
+                    .AddTransient<SavannahGameState, SavannahGame>()
                     .BuildServiceProvider();
             return serviceProvider;
         }
