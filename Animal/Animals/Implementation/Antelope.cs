@@ -31,7 +31,7 @@ namespace Entities.Animals.Implementation
             {
                 for (int columnNumber = 0; columnNumber < gameFieldSize; columnNumber++)
                 {
-                    if (initialGameArray[rowNumber, columnNumber].Name == "L")
+                    if (initialGameArray[rowNumber, columnNumber] != null && initialGameArray[rowNumber, columnNumber].Name == "L")
                     {
                         enemiesPositionOnField.RowPosition = rowNumber;
                         enemiesPositionOnField.ColumnPosition = columnNumber;

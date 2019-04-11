@@ -12,7 +12,7 @@ namespace Savannah.Application.GameEngine
     {
         private readonly IInputOutput inputOutput;
         private readonly SavannahGameLogic savannahGameGameLogic;
-        private readonly SavannahGameState savannahGameState;
+        private SavannahGameState savannahGameState;
 
         public SavannahGameLoop(IInputOutput inputOutput, 
             SavannahGameState savannahGameState, 
@@ -22,20 +22,41 @@ namespace Savannah.Application.GameEngine
             this.inputOutput = inputOutput;
             this.savannahGameGameLogic = savannahGameGameLogic;
             this.savannahGameState = savannahGameState;
+            AnimalCollection = new List<IAnimal>();
+            InitialArray = savannahGameState.GameField;
+            NextGenerationArray = new IAnimal[InitialArray.GetLength(0), InitialArray.GetLength(0)];
         }
 
         public List<IAnimal> AnimalCollection { get; private set; }
 
-        public void LoopTheGame(IInputOutput inputOutput)
+        public IAnimal[,] InitialArray;
+
+        public IAnimal[,] NextGenerationArray;
+
+        public void LoopTheGame()
         {
             this.UsersTurnToAddAnimals();
-            //this.PlayGame();
+            savannahGameState.GameField =  this.GetNextGeneration();
             inputOutput.DrawGameField(savannahGameState);
         }
 
-        private void PlayGame()
+        private IAnimal[,] GetNextGeneration()
         {
-            throw new NotImplementedException();
+            foreach (var animal in AnimalCollection)
+            {
+                var position = animal.GetEnemysPositionOnField(InitialArray);
+                if (position.IsInViewRange == true)
+                {
+                   var newPosition = animal.ActionWhenSeesEnenmy(ref NextGenerationArray, position);
+                    NextGenerationArray[newPosition.RowPosition, newPosition.ColumnPosition] = animal;
+                }
+                else
+                {
+                    var newPosition = animal.PeaceStateMovementNextPosition(ref InitialArray,ref NextGenerationArray);
+                    NextGenerationArray[newPosition.RowPosition, newPosition.ColumnPosition] = animal;
+                }               
+            }
+            return NextGenerationArray;
         }
 
         private void UsersTurnToAddAnimals()
@@ -49,11 +70,13 @@ namespace Savannah.Application.GameEngine
                     IAnimal antilope = new Antelope();
                     savannahGameGameLogic.PlaceAnimalOnRandomAndFreePosition(savannahGameState, antilope);
                     inputOutput.DrawGameField(savannahGameState);
+                    this.AnimalCollection.Add(antilope);
                 }
                 else if (keyPressedByUser == "L")
                 {
                     IAnimal lion = new Lion();
                     this.AnimalCollection.Add(lion);
+                    inputOutput.DrawGameField(savannahGameState);
                     savannahGameGameLogic.PlaceAnimalOnRandomAndFreePosition(savannahGameState, lion);
                 }
             } while (keyPressedByUser != "ESC");

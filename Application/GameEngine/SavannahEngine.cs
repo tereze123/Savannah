@@ -32,7 +32,7 @@ namespace Application.GameEngine
             inputOutput.DrawGameField(gameField);
             for (int i = 0; i < 1000; i++)
             {
-                loopGame.LoopTheGame(inputOutput);
+                loopGame.LoopTheGame();
             }
         }
 

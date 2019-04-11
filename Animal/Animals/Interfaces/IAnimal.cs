@@ -19,7 +19,7 @@ namespace Entities.Animals
 
         public abstract PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray);
 
-        public abstract PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] initialGameArray, ref IAnimal[,] nextGenerationArray);
+        public abstract PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] newGenerationArray, ref IAnimal[,] nextGenerationArray);
 
         public abstract PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] initialGameArray, PositionOnField positionOfEnemy);
     }
