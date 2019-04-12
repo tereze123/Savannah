@@ -40,6 +40,8 @@ namespace Application.GameEngine
             inputOutput.DrawGameField(GameState);
             for (int i = 0; i < 1000; i++)
             {
+                loopGame.UsersTurnToAddAnimals(GameState);
+                inputOutput.DrawGameField(GameState);
                 GameState.GameField =  loopGame.LoopTheGame(GameState);
             }
         }

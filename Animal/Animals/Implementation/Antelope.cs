@@ -63,17 +63,17 @@ namespace Entities.Animals.Implementation
 
         private bool ThisPlaceInArrayIsTaken(IAnimal[,] initialGameArray, PositionOnField nextPositionOnField)
         {
-            if (nextPositionOnField.RowPosition > initialGameArray.GetLength(0) && nextPositionOnField.ColumnPosition > initialGameArray.GetLength(0))
+            if (nextPositionOnField.RowPosition >= initialGameArray.GetLength(0) || nextPositionOnField.ColumnPosition >= initialGameArray.GetLength(0))
             {
-                if (initialGameArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition] != null)
-                {
-                    return true;
-                }
-                else
-                {
-                    return false;
-                }
-
+                return true;
+            }
+            else if (nextPositionOnField.RowPosition < 0 || nextPositionOnField.ColumnPosition < 0)
+            {
+                return true;
+            }
+            else if (initialGameArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition] != null)
+            {
+                return true;
             }
             else
             {
