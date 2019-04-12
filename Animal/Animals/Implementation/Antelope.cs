@@ -50,7 +50,7 @@ namespace Entities.Animals.Implementation
             return this.AnimalsPositionOnField;
         }
 
-        public override PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray)
+        public override PositionOnField GetEnemysPositionOnField(ref IAnimal[,] initialGameArray)
         {
             int gameFieldSize = initialGameArray.GetLength(0);
             PositionOnField enemiesPositionOnField = new PositionOnField();
@@ -109,8 +109,6 @@ namespace Entities.Animals.Implementation
                 nextPositionOnField = this.Move(movementWay);
             } while (ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField));
 
-            //AnimalsPositionOnField.RowPosition = nextPositionOnField.RowPosition;
-            //AnimalsPositionOnField.ColumnPosition = nextPositionOnField.ColumnPosition;
             return nextPositionOnField;
         }
 

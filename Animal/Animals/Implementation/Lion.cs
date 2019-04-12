@@ -1,4 +1,5 @@
-﻿using Entities.Animals.Enums;
+﻿using System;
+using Entities.Animals.Enums;
 using Entities.GameField;
 using Savannah.Common.Facades;
 
@@ -10,46 +11,76 @@ namespace Entities.Animals.Implementation
         public Lion(IRandomiserFascade randomiserFascade)
         {
             this.Name = "L";
-            this.VisionRange = 7;
+            this.VisionRange = 4;
             this.randomiserFascade = randomiserFascade;
         }
 
-        public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] initialGameArray, PositionOnField positionOfEnemy)
+        public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] nextGenerationArray, PositionOnField positionOfEnemy)
         {
             int distanceBetweenLionAndAntilopeRow = positionOfEnemy.RowPosition - AnimalsPositionOnField.RowPosition;
             int distanceBetweenLionAndAntilopeColumn = positionOfEnemy.ColumnPosition - AnimalsPositionOnField.ColumnPosition;
 
+            if (AnimalsPositionOnField.RowPosition < 0 || AnimalsPositionOnField.ColumnPosition < 0
+    || AnimalsPositionOnField.RowPosition >= nextGenerationArray.GetLength(0)
+    || AnimalsPositionOnField.ColumnPosition >= nextGenerationArray.GetLength(0))
+            {
+                throw new ArgumentException();
+            }
 
             PositionOnField nextPositionOnField = new PositionOnField();
             nextPositionOnField.ColumnPosition = AnimalsPositionOnField.ColumnPosition;
-            nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition + 1;
+            nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition;
 
-            if (distanceBetweenLionAndAntilopeRow > 0)
+            for (int i = 0; i < 2; i++)
             {
-                nextPositionOnField.RowPosition += 1;
-            }
-            else if (distanceBetweenLionAndAntilopeRow < 0)
-            {
-                nextPositionOnField.RowPosition -= 1;
-            }
-            if (distanceBetweenLionAndAntilopeColumn > 0)
-            {
-                nextPositionOnField.ColumnPosition += 1;
-            }
-            else if (distanceBetweenLionAndAntilopeColumn < 0)
-            {
-                nextPositionOnField.ColumnPosition -= 1;
-            }
+                if (distanceBetweenLionAndAntilopeRow > 0)
+                {
+                    nextPositionOnField.RowPosition += 1;
+                }
+                else if (distanceBetweenLionAndAntilopeRow < 0)
+                {
+                    nextPositionOnField.RowPosition -= 1;
+                }
+                if (distanceBetweenLionAndAntilopeColumn > 0)
+                {
+                    nextPositionOnField.ColumnPosition += 1;
+                }
+                else if (distanceBetweenLionAndAntilopeColumn < 0)
+                {
+                    nextPositionOnField.ColumnPosition -= 1;
+                }
 
-            if (!(this.ThisPlaceInArrayIsTaken(initialGameArray, nextPositionOnField)))
-            {
-                AnimalsPositionOnField = nextPositionOnField;
+                if (!(this.CantGoHere(nextGenerationArray, nextPositionOnField)))
+                {
+                    if (WillEatAntilope(nextGenerationArray, nextPositionOnField))
+                    {
+                        nextGenerationArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition] = null;
+                        nextGenerationArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition] = this;
+                    }
+                    AnimalsPositionOnField.ColumnPosition = nextPositionOnField.ColumnPosition;
+                    AnimalsPositionOnField.RowPosition = nextPositionOnField.RowPosition;
+                }
+                else
+                {
+                    return AnimalsPositionOnField;
+                }
             }
-
-            return this.AnimalsPositionOnField;
+            return AnimalsPositionOnField;
         }
 
-        public override PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray)
+        private bool WillEatAntilope(IAnimal[,] nextGenerationArray, PositionOnField nextPositionOnField)
+        {
+            if (nextGenerationArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition] != null)
+            {
+                if (nextGenerationArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition].Name == "A")
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public override PositionOnField GetEnemysPositionOnField(ref IAnimal[,] initialGameArray)
         {
             int gameFieldSize = initialGameArray.GetLength(0);
             PositionOnField enemiesPositionOnField = new PositionOnField();
@@ -79,24 +110,26 @@ namespace Entities.Animals.Implementation
             {
                 movementWay = this.GetRandomMovementWay();
                 nextPositionOnField = this.Move(movementWay);
-            } while (ThisPlaceInArrayIsTaken(nextGenerationArray, nextPositionOnField));
+            } while (CantGoHere(nextGenerationArray, nextPositionOnField));
+
+            if (AnimalsPositionOnField.RowPosition < 0 || AnimalsPositionOnField.ColumnPosition < 0 || AnimalsPositionOnField.RowPosition >= nextGenerationArray.GetLength(0) || AnimalsPositionOnField.ColumnPosition >= nextGenerationArray.GetLength(0))
+            {
+                throw new ArgumentException();
+            }
+            return AnimalsPositionOnField;
 
             AnimalsPositionOnField.RowPosition = nextPositionOnField.RowPosition;
             AnimalsPositionOnField.ColumnPosition = nextPositionOnField.ColumnPosition;
             return nextPositionOnField;
         }
 
-        private bool ThisPlaceInArrayIsTaken(IAnimal[,] initialGameArray, PositionOnField nextPositionOnField)
+        private bool CantGoHere(IAnimal[,] initialGameArray, PositionOnField nextPositionOnField)
         {
             if (nextPositionOnField.RowPosition >= initialGameArray.GetLength(0) || nextPositionOnField.ColumnPosition >= initialGameArray.GetLength(0))
             {
                 return true;
             }
             else if (nextPositionOnField.RowPosition < 0 || nextPositionOnField.ColumnPosition < 0)
-            {
-                return true;
-            }
-            else if (initialGameArray[nextPositionOnField.RowPosition, nextPositionOnField.ColumnPosition] != null)
             {
                 return true;
             }

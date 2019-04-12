@@ -38,7 +38,7 @@ namespace Application.GameEngine
 
         public void Start()
         {
-            string userInput = "";
+            string userInput = string.Empty;
             inputOutput.DrawGameField(GameState);
             do
             {
@@ -50,12 +50,11 @@ namespace Application.GameEngine
                     {
                         loopGame.UsersTurnToAddAnimals(GameState, userInput);
                         inputOutput.DrawGameField(GameState);
-                       // Thread.Sleep(1000);
                     }
                 }
                 GameState.GameField = loopGame.LoopTheGame(GameState);
                 inputOutput.DrawGameField(GameState);
-                Thread.Sleep(100);
+                Thread.Sleep(1000);
             } while (userInput != "ESC");
         }
     }

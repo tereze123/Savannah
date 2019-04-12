@@ -17,7 +17,7 @@ namespace Entities.Animals
 
         public PositionOnField AnimalsPositionOnField { get; set; }
 
-        public abstract PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray);
+        public abstract PositionOnField GetEnemysPositionOnField(ref IAnimal[,] initialGameArray);
 
         public abstract PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] newGenerationArray, ref IAnimal[,] nextGenerationArray);
 
