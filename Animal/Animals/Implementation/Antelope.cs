@@ -12,7 +12,7 @@ namespace Entities.Animals.Implementation
         public Antelope(IRandomiserFascade randomiserFascade)
         {
             Name = "A";
-            VisionRange = 1;
+            VisionRange = 3;
             this.randomiserFascade = randomiserFascade;
         }
         public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] newGenerationArray, PositionOnField positionOfEnemy)

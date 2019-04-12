@@ -16,8 +16,37 @@ namespace Entities.Animals.Implementation
 
         public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] initialGameArray, PositionOnField positionOfEnemy)
         {
-            //Do nothing
-            return AnimalsPositionOnField;
+            int distanceBetweenLionAndAntilopeRow = positionOfEnemy.RowPosition - AnimalsPositionOnField.RowPosition;
+            int distanceBetweenLionAndAntilopeColumn = positionOfEnemy.ColumnPosition - AnimalsPositionOnField.ColumnPosition;
+
+
+            PositionOnField nextPositionOnField = new PositionOnField();
+            nextPositionOnField.ColumnPosition = AnimalsPositionOnField.ColumnPosition;
+            nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition + 1;
+
+            if (distanceBetweenLionAndAntilopeRow > 0)
+            {
+                nextPositionOnField.RowPosition += 1;
+            }
+            else if (distanceBetweenLionAndAntilopeRow < 0)
+            {
+                nextPositionOnField.RowPosition -= 1;
+            }
+            if (distanceBetweenLionAndAntilopeColumn > 0)
+            {
+                nextPositionOnField.ColumnPosition += 1;
+            }
+            else if (distanceBetweenLionAndAntilopeColumn < 0)
+            {
+                nextPositionOnField.ColumnPosition -= 1;
+            }
+
+            if (!(this.ThisPlaceInArrayIsTaken(initialGameArray, nextPositionOnField)))
+            {
+                AnimalsPositionOnField = nextPositionOnField;
+            }
+
+            return this.AnimalsPositionOnField;
         }
 
         public override PositionOnField GetEnemysPositionOnField(IAnimal[,] initialGameArray)

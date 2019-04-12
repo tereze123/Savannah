@@ -35,7 +35,6 @@ namespace Savannah.Application.GameEngine
             return  this.GetNextGeneration(savannahGameState);
         }
 
-        //TO DO: ADD GUARD CLAUSES
         private IAnimal[,] GetNextGeneration(SavannahGameState savannahGameState)
         {
             foreach (var animal in savannahGameState.AnimalCollection)
