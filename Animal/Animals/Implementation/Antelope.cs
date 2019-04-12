@@ -1,4 +1,5 @@
-﻿using Entities.Animals.Enums;
+﻿using System;
+using Entities.Animals.Enums;
 using Entities.GameField;
 using Savannah.Common.Facades;
 
@@ -16,9 +17,30 @@ namespace Entities.Animals.Implementation
         }
         public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] newGenerationArray, PositionOnField positionOfEnemy)
         {
+            int distanceBetweenLionAndAntilopeRow = positionOfEnemy.RowPosition - AnimalsPositionOnField.RowPosition;
+            int distanceBetweenLionAndAntilopeColumn = positionOfEnemy.ColumnPosition - AnimalsPositionOnField.ColumnPosition;
+
+
             PositionOnField nextPositionOnField = new PositionOnField();
             nextPositionOnField.ColumnPosition = AnimalsPositionOnField.ColumnPosition;
             nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition + 1;
+
+            if (distanceBetweenLionAndAntilopeRow > 0)
+            {
+                nextPositionOnField.RowPosition -= 1;
+            }
+            else if(distanceBetweenLionAndAntilopeRow < 0)
+            {
+                nextPositionOnField.RowPosition += 1;
+            }
+            if (distanceBetweenLionAndAntilopeColumn > 0)
+            {
+                nextPositionOnField.ColumnPosition -= 1;
+            }
+            else if (distanceBetweenLionAndAntilopeColumn < 0)
+            {
+                nextPositionOnField.ColumnPosition += 1;
+            }
 
             if (!(this.ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField)))
             {
@@ -72,17 +94,118 @@ namespace Entities.Animals.Implementation
         public override PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] initialGameArray, ref IAnimal[,] newGenerationArray)
         {
             PositionOnField nextPositionOnField = new PositionOnField();
+            nextPositionOnField.ColumnPosition = AnimalsPositionOnField.ColumnPosition;
+            nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition;
             MovementWay movementWay = new MovementWay();
 
             do
             {
+                if (CantMoveAnymore(newGenerationArray))
+                {
+                    nextPositionOnField = AnimalsPositionOnField;
+                    break;
+                }
                 movementWay = this.GetRandomMovementWay();
                 nextPositionOnField = this.Move(movementWay);
             } while (ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField));
 
-            AnimalsPositionOnField.RowPosition = nextPositionOnField.RowPosition;
-            AnimalsPositionOnField.ColumnPosition = nextPositionOnField.ColumnPosition;
+            //AnimalsPositionOnField.RowPosition = nextPositionOnField.RowPosition;
+            //AnimalsPositionOnField.ColumnPosition = nextPositionOnField.ColumnPosition;
             return nextPositionOnField;
+        }
+
+        private bool CantMoveAnymore(IAnimal[,] newGenerationArray)
+        {
+            PositionOnField nextPositionOnField = new PositionOnField();
+            nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition;
+            nextPositionOnField.ColumnPosition = AnimalsPositionOnField.ColumnPosition;
+
+            int testRow = nextPositionOnField.RowPosition;
+            int testCol = nextPositionOnField.ColumnPosition;
+
+            int waysCantMoveCount = 0;
+
+            if(CantMoveToTop(nextPositionOnField,newGenerationArray))
+            {
+                waysCantMoveCount += 1;
+            }
+            if (CantMoveDown(nextPositionOnField, newGenerationArray))
+            {
+                waysCantMoveCount += 1;
+            }
+            if (CantMoveToRight(nextPositionOnField, newGenerationArray))
+            {
+                waysCantMoveCount += 1;
+            }
+            if (CantMoveToLeft(nextPositionOnField, newGenerationArray))
+            {
+                waysCantMoveCount += 1;
+            }
+
+            if (waysCantMoveCount == 4)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CantMoveToTop(PositionOnField nextPositionOnField, IAnimal[,] newGenerationArray)
+        {
+            nextPositionOnField.RowPosition -= 1;
+
+            if (ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CantMoveToRight(PositionOnField nextPositionOnField, IAnimal[,] newGenerationArray)
+        {
+            nextPositionOnField.ColumnPosition += 1;
+
+            if (ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CantMoveDown(PositionOnField nextPositionOnField, IAnimal[,] newGenerationArray)
+        {
+            nextPositionOnField.RowPosition += 1;
+
+            if (ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        private bool CantMoveToLeft(PositionOnField nextPositionOnField, IAnimal[,] newGenerationArray)
+        {
+            nextPositionOnField.ColumnPosition -= 1;
+
+            if (ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField) == true)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private bool ThisPlaceInArrayIsTaken(IAnimal[,] initialGameArray, PositionOnField nextPositionOnField)

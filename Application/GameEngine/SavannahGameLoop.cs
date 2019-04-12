@@ -49,6 +49,8 @@ namespace Savannah.Application.GameEngine
                 else
                 {
                     var newPosition = animal.PeaceStateMovementNextPosition(ref InitialArray,ref NextGenerationArray);
+                    animal.AnimalsPositionOnField.ColumnPosition = newPosition.ColumnPosition;
+                    animal.AnimalsPositionOnField.RowPosition = newPosition.RowPosition;
                     NextGenerationArray[newPosition.RowPosition, newPosition.ColumnPosition] = animal;
                 }               
             }
@@ -62,14 +64,12 @@ namespace Savannah.Application.GameEngine
                     IAnimal antilope = new Antelope(randomiserFascade);
                     savannahGameGameLogic.PlaceAnimalOnRandomAndFreePosition(savannahGameState, antilope);
                     savannahGameState.AnimalCollection.Add(antilope);
-                    savannahGameState.CountOfAnimalsOnField++;
                 }
                 else if (keyPressed == "L")
                 {
                     IAnimal lion = new Lion(randomiserFascade);
                     savannahGameGameLogic.PlaceAnimalOnRandomAndFreePosition(savannahGameState, lion);
                     savannahGameState.AnimalCollection.Add(lion);
-                    savannahGameState.CountOfAnimalsOnField++;
                 }
         }
     }

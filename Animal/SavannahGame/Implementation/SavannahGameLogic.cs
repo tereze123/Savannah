@@ -27,7 +27,6 @@ namespace Savannah.Entities.SavannahGame.Implementation
         {
             PositionOnField positionOnField = GetRandomAndFreePositionOnField(gameField);
             gameField.GameField[positionOnField.RowPosition, positionOnField.ColumnPosition] = animal;
-            gameField.CountOfAnimalsOnField++;
             SetAnimalPositionProperties(animal, positionOnField);
         }
 
@@ -67,7 +66,7 @@ namespace Savannah.Entities.SavannahGame.Implementation
 
         private bool AreThereAnyFreeSpacesOnFieldLeft(SavannahGameState gameField)
         {
-            if (gameField.CountOfAnimalsOnField == _gameFieldSize * _gameFieldSize)
+            if (gameField.AnimalCollection.Count == _gameFieldSize * _gameFieldSize)
             {
                 return false;
             }

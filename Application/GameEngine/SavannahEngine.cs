@@ -50,11 +50,12 @@ namespace Application.GameEngine
                     {
                         loopGame.UsersTurnToAddAnimals(GameState, userInput);
                         inputOutput.DrawGameField(GameState);
+                       // Thread.Sleep(1000);
                     }
                 }
                 GameState.GameField = loopGame.LoopTheGame(GameState);
                 inputOutput.DrawGameField(GameState);
-                Thread.Sleep(10);
+                Thread.Sleep(100);
             } while (userInput != "ESC");
         }
     }

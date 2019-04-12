@@ -18,8 +18,6 @@ namespace Entities.GameField
 
         public int GameFieldSize { get;}
 
-        public int CountOfAnimalsOnField { get; set; }
-
         public IAnimal[,] GameField { get; set; }
 
         public List<IAnimal> AnimalCollection { get; set; }
