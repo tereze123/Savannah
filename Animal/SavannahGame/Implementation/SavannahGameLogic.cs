@@ -12,7 +12,9 @@ namespace Savannah.Entities.SavannahGame.Implementation
         private readonly IPositionOnFieldFactory _positionOnFieldFactory;
         private readonly int _gameFieldSize;
 
-        public SavannahGameLogic(PositionOnFieldFactory positionOnFieldFactory, IConfigurationFactory configurationFactory)
+        public SavannahGameLogic(
+            IPositionOnFieldFactory positionOnFieldFactory, 
+            IConfigurationFactory configurationFactory)
         {
             _configurationFactory = configurationFactory;
             _gameFieldSize = _configurationFactory.GetFieldSizeFromConfigurationFile();

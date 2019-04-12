@@ -3,13 +3,13 @@ using System.IO;
 
 namespace Savannah.Common
 {
-    public class SavannahConfiguration : IConfigurationFactory
+    public class ConfigurationFactory : IConfigurationFactory
     {
         private IConfigurationBuilder _builder;
 
         private IConfigurationRoot _configuration;
         
-        public SavannahConfiguration()
+        public ConfigurationFactory()
         {
             _builder = new ConfigurationBuilder()
                                 .SetBasePath(Directory.GetCurrentDirectory())

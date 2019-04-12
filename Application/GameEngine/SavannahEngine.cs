@@ -1,38 +1,46 @@
-﻿using Entities.Animals;
-using Entities.GameField;
+﻿using Entities.GameField;
 using Presentation.Interfaces;
 using Savannah.Application.GameEngine;
+using Savannah.Common;
+using Savannah.Common.Facades;
 using Savannah.Entities.Factories;
-using System;
-using System.Collections.Generic;
 
 namespace Application.GameEngine
 {
     public class SavannahEngine
     {
-        public List<IAnimal> AnimalCollection { get; set; }
+        
         private readonly ISavannahGameStateFactory savannahGameStateFactory ;
+        private readonly IConfigurationFactory configurationFactory;
+        private readonly IRandomiserFascade randomiserFascade;
         private readonly IInputOutput inputOutput;
         private readonly ISavannahGameLoop loopGame;
-        private readonly Random random;
-        private PositionOnField randomPosition;
 
-        public SavannahEngine( IInputOutput inputOutput, ISavannahGameLoop loopGame, ISavannahGameStateFactory savannahGameStateFactory)
+
+        public SavannahGameState GameState { get; set; }
+
+        public SavannahEngine( 
+            IInputOutput inputOutput, 
+            ISavannahGameLoop loopGame, 
+            ISavannahGameStateFactory savannahGameStateFactory,
+            IConfigurationFactory configurationFactory,
+            IRandomiserFascade randomiserFascade
+            )
         {
-            this.AnimalCollection = new List<IAnimal>();
             this.savannahGameStateFactory = savannahGameStateFactory;
+            this.configurationFactory = configurationFactory;
+            this.randomiserFascade = randomiserFascade;
             this.inputOutput = inputOutput;
             this.loopGame = loopGame;
-            this.random = new Random();
-            this.randomPosition = new PositionOnField();
+            GameState = savannahGameStateFactory.GetNewSavannahGameState(configurationFactory);
         }
 
         public void Start()
         {
-            inputOutput.DrawGameField(gameField);
+            inputOutput.DrawGameField(GameState);
             for (int i = 0; i < 1000; i++)
             {
-                loopGame.LoopTheGame();
+                GameState.GameField =  loopGame.LoopTheGame(GameState);
             }
         }
     }

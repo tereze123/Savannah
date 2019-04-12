@@ -14,8 +14,4 @@
     <ProjectReference Include="..\Savannah.Common\Savannah.Common.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="SavannahGame\Interfaces\" />
-  </ItemGroup>
-
 </Project>

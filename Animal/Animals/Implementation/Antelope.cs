@@ -1,17 +1,19 @@
 ﻿using Entities.Animals.Enums;
 using Entities.GameField;
+using Savannah.Common.Facades;
 using System;
 
 namespace Entities.Animals.Implementation
 {
     public class Antelope : IAnimal
     {
-        private readonly Random _rand;
-        public Antelope()
+        private readonly IRandomiserFascade randomiserFascade;
+
+        public Antelope(IRandomiserFascade randomiserFascade)
         {
             Name = "A";
             VisionRange = 3;
-            _rand = new Random();
+            this.randomiserFascade = randomiserFascade;
         }
         public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] newGenerationArray, PositionOnField positionOfEnemy)
         {
@@ -107,7 +109,7 @@ namespace Entities.Animals.Implementation
 
         private MovementWay GetRandomMovementWay()
         {
-            int temp = _rand.Next(1, 5);
+            int temp = randomiserFascade.Next(1, 5);
             return (MovementWay)temp;
         }
     }

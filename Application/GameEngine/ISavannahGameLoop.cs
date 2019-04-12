@@ -1,12 +1,10 @@
-﻿using System.Collections.Generic;
-using Entities.Animals;
+﻿using Entities.Animals;
+using Entities.GameField;
 
 namespace Savannah.Application.GameEngine
 {
     public interface ISavannahGameLoop
     {
-        List<IAnimal> AnimalCollection { get; }
-
-        void LoopTheGame();
+        IAnimal[,] LoopTheGame(SavannahGameState savannahGameState);
     }
 }

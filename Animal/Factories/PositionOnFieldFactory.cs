@@ -6,12 +6,14 @@ namespace Savannah.Entities.Factories
 {
     public class PositionOnFieldFactory : IPositionOnFieldFactory
     {
-        private readonly Random _randomiser;
+        private readonly IRandomiserFactory randomiserFactory;
+        private readonly Random randomiser;
 
-        public PositionOnFieldFactory()
+        public PositionOnFieldFactory(IRandomiserFactory randomiserFactory)
         {
-            RandomiserFactory randomiserFactory= new RandomiserFactory();
-            _randomiser = randomiserFactory.GetNewRandomiser();
+            this.randomiserFactory = randomiserFactory;
+
+            randomiser = randomiserFactory.GetNewRandomiser();
         }
 
         public PositionOnField GetNewEmptyPositionOnField()
@@ -22,8 +24,8 @@ namespace Savannah.Entities.Factories
         public PositionOnField GetRandomPositionOnField(int gameFieldSize)
         {
             PositionOnField randomPosition = new PositionOnField();
-            randomPosition.RowPosition = _randomiser.Next(0, gameFieldSize);
-            randomPosition.ColumnPosition = _randomiser.Next(0, gameFieldSize);
+            randomPosition.RowPosition = randomiser.Next(0, gameFieldSize);
+            randomPosition.ColumnPosition = randomiser.Next(0, gameFieldSize);
             return randomPosition;
         }
 

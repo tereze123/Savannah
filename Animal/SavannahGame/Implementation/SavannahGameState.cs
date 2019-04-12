@@ -1,5 +1,6 @@
 ﻿using Entities.Animals;
 using Savannah.Common;
+using System.Collections.Generic;
 
 namespace Entities.GameField
 {
@@ -12,6 +13,7 @@ namespace Entities.GameField
             _configurationFactory = configurationFactory;
             GameFieldSize = _configurationFactory.GetFieldSizeFromConfigurationFile();
             GameField = new IAnimal[GameFieldSize, GameFieldSize];
+            AnimalCollection = new List<IAnimal>();
         }
 
         public int GameFieldSize { get;}
@@ -19,6 +21,8 @@ namespace Entities.GameField
         public int CountOfAnimalsOnField { get; set; }
 
         public IAnimal[,] GameField { get; set; }
+
+        public List<IAnimal> AnimalCollection { get; set; }
 
     }
 }
