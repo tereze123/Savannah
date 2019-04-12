@@ -1,7 +1,6 @@
 ﻿using Entities.Animals.Enums;
 using Entities.GameField;
 using Savannah.Common.Facades;
-using System;
 
 namespace Entities.Animals.Implementation
 {
@@ -12,15 +11,20 @@ namespace Entities.Animals.Implementation
         public Antelope(IRandomiserFascade randomiserFascade)
         {
             Name = "A";
-            VisionRange = 3;
+            VisionRange = 1;
             this.randomiserFascade = randomiserFascade;
         }
         public override PositionOnField ActionWhenSeesEnenmy(ref IAnimal[,] newGenerationArray, PositionOnField positionOfEnemy)
         {
-            //iet pa labi
-            this.AnimalsPositionOnField = this.Move(MovementWay.Right);
-            this.AnimalsPositionOnField = this.Move(MovementWay.Right);
-            this.AnimalsPositionOnField = this.Move(MovementWay.Right);
+            PositionOnField nextPositionOnField = new PositionOnField();
+            nextPositionOnField.ColumnPosition = AnimalsPositionOnField.ColumnPosition;
+            nextPositionOnField.RowPosition = AnimalsPositionOnField.RowPosition + 1;
+
+            if (!(this.ThisPlaceInArrayIsTaken(newGenerationArray, nextPositionOnField)))
+            {
+                AnimalsPositionOnField = nextPositionOnField;
+            }
+
             return this.AnimalsPositionOnField;
         }
 
@@ -28,21 +32,41 @@ namespace Entities.Animals.Implementation
         {
             int gameFieldSize = initialGameArray.GetLength(0);
             PositionOnField enemiesPositionOnField = new PositionOnField();
+            int newRow;
+            int newCol;
 
-            for (int rowNumber = 0; rowNumber < gameFieldSize; rowNumber++)
+            for (int rowNumber = (VisionRange * -1); rowNumber < VisionRange; rowNumber++)
             {
-                for (int columnNumber = 0; columnNumber < gameFieldSize; columnNumber++)
+                for (int columnNumber = (VisionRange * -1); columnNumber < VisionRange; columnNumber++)
                 {
-                    if (initialGameArray[rowNumber, columnNumber] != null && initialGameArray[rowNumber, columnNumber].Name == "L")
+                    newRow = rowNumber + AnimalsPositionOnField.RowPosition;
+                    newCol = columnNumber + AnimalsPositionOnField.ColumnPosition;
+                    if (NotOutOfBoundsAndNotMe(gameFieldSize, newRow, newCol))
                     {
-                        enemiesPositionOnField.RowPosition = rowNumber;
-                        enemiesPositionOnField.ColumnPosition = columnNumber;
-                        enemiesPositionOnField.IsInViewRange = true;
-                        return enemiesPositionOnField;
+                        if (initialGameArray[newRow, newCol] != null && initialGameArray[newRow, newCol].Name == "L")
+                        {
+                            enemiesPositionOnField.RowPosition = rowNumber + AnimalsPositionOnField.RowPosition;
+                            enemiesPositionOnField.ColumnPosition = columnNumber + AnimalsPositionOnField.ColumnPosition;
+                            enemiesPositionOnField.IsInViewRange = true;
+                            return enemiesPositionOnField;
+                        }
+
                     }
                 }
             }
             return enemiesPositionOnField;
+        }
+
+        private bool NotOutOfBoundsAndNotMe(int gameFieldSize, int row, int colums)
+        {
+            if ((row >= 0 && colums >= 0) && (row < gameFieldSize && colums < gameFieldSize) && (row != AnimalsPositionOnField.RowPosition && colums != AnimalsPositionOnField.ColumnPosition) )
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         public override PositionOnField PeaceStateMovementNextPosition(ref IAnimal[,] initialGameArray, ref IAnimal[,] newGenerationArray)

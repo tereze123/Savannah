@@ -6,5 +6,6 @@ namespace Presentation.Interfaces
     {
         void DrawGameField(SavannahGameState savannahGameState);
         string ReturnKeyPressed();
+        bool IsKeYPressed();
     }
 }

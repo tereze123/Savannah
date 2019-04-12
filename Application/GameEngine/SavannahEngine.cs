@@ -4,6 +4,7 @@ using Savannah.Application.GameEngine;
 using Savannah.Common;
 using Savannah.Common.Facades;
 using Savannah.Entities.Factories;
+using System.Threading;
 
 namespace Application.GameEngine
 {
@@ -37,13 +38,24 @@ namespace Application.GameEngine
 
         public void Start()
         {
+            string userInput = "";
             inputOutput.DrawGameField(GameState);
-            for (int i = 0; i < 1000; i++)
+            do
             {
-                loopGame.UsersTurnToAddAnimals(GameState);
+                if (inputOutput.IsKeYPressed())
+                {
+                    userInput = inputOutput.ReturnKeyPressed();
+
+                    if (userInput == "L" || userInput == "A")
+                    {
+                        loopGame.UsersTurnToAddAnimals(GameState, userInput);
+                        inputOutput.DrawGameField(GameState);
+                    }
+                }
+                GameState.GameField = loopGame.LoopTheGame(GameState);
                 inputOutput.DrawGameField(GameState);
-                GameState.GameField =  loopGame.LoopTheGame(GameState);
-            }
+                Thread.Sleep(10);
+            } while (userInput != "ESC");
         }
     }
 }

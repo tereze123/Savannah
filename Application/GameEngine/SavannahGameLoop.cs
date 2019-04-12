@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using Entities.Animals;
+﻿using Entities.Animals;
 using Entities.Animals.Implementation;
 using Entities.GameField;
 using Presentation.Interfaces;
@@ -57,27 +55,22 @@ namespace Savannah.Application.GameEngine
             return NextGenerationArray;
         }
 
-        public void UsersTurnToAddAnimals(SavannahGameState savannahGameState)
+        public void UsersTurnToAddAnimals(SavannahGameState savannahGameState, string keyPressed)
         {
-            string keyPressedByUser;
-            do
-            {
-                keyPressedByUser = inputOutput.ReturnKeyPressed();
-                if (keyPressedByUser == "A")
+                if (keyPressed == "A")
                 {
                     IAnimal antilope = new Antelope(randomiserFascade);
                     savannahGameGameLogic.PlaceAnimalOnRandomAndFreePosition(savannahGameState, antilope);
-                    inputOutput.DrawGameField(savannahGameState);
                     savannahGameState.AnimalCollection.Add(antilope);
+                    savannahGameState.CountOfAnimalsOnField++;
                 }
-                else if (keyPressedByUser == "L")
+                else if (keyPressed == "L")
                 {
-                    IAnimal lion = new Lion();
-                    savannahGameState.AnimalCollection.Add(lion);
-                    inputOutput.DrawGameField(savannahGameState);
+                    IAnimal lion = new Lion(randomiserFascade);
                     savannahGameGameLogic.PlaceAnimalOnRandomAndFreePosition(savannahGameState, lion);
+                    savannahGameState.AnimalCollection.Add(lion);
+                    savannahGameState.CountOfAnimalsOnField++;
                 }
-            } while (keyPressedByUser != "ESC");
         }
     }
 }

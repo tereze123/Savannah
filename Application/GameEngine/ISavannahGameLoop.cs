@@ -6,6 +6,6 @@ namespace Savannah.Application.GameEngine
     public interface ISavannahGameLoop
     {
         IAnimal[,] LoopTheGame(SavannahGameState savannahGameState);
-        void UsersTurnToAddAnimals(SavannahGameState savannahGameState);
+        void UsersTurnToAddAnimals(SavannahGameState savannahGameState, string keyPressed);
     }
 }

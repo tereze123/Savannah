@@ -50,6 +50,7 @@ namespace Presentation.Implementation
             return "ESC";
         }
 
+
         private void OutputAnimalNameOrBlank(SavannahGameState gameField, int rowNumber, int columnNumber)
         {
             if (gameField.GameField[rowNumber, columnNumber] == null)
@@ -93,6 +94,19 @@ namespace Presentation.Implementation
                 {
                     Console.Write("-");
                 }
+            }
+        }
+
+        public bool IsKeYPressed()
+        {
+            if (Console.KeyAvailable)
+            {
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
     }
